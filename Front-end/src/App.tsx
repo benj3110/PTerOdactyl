@@ -5,7 +5,7 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
-  const allowance = 80;
+  const allowance = 70;
   const approved = 40;
   const awaitingApproval = 10;
 
