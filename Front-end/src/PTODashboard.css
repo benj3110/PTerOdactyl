@@ -1,24 +1,45 @@
+* {
+  color: black;
+  background-color: white;
+  text-align: center;
+}
+
 .ptodashboard-wrapper {
   text-align: center;
   margin: auto;
-  max-width: 800px;
+  max-width: 1000px;
+  text-align: center;
+  border-color: blue;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .ptodashboard-container {
   display: flex;
   justify-content: space-between;
+  text-align: center;
+  border-color: rgb(0, 255, 42);
+  border-width: 2px;
+  border-style: solid;
 }
 
 .ptodashboard-box {
   width: 20%;
-  background-color: #f0f0f0;
+  background-color: lightgray;
   padding: 10px;
   text-align: center;
+  border-color: red;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .ptodashboard-progress {
   margin-top: 40px;
   text-align: center;
+  text-align: center;
+  border-color: rgb(246, 255, 0);
+  border-width: 2px;
+  border-style: solid;
 }
 
 .ptodashboard-progress .CircularProgressbar-text {
