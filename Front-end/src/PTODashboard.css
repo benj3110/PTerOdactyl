@@ -35,7 +35,6 @@ h3 {
 .ptodashboard-progress {
   margin-top: 40px;
   text-align: center;
-  text-align: center;
 }
 
 .ptodashboard-progress .CircularProgressbar-text {
@@ -43,10 +42,12 @@ h3 {
   font-weight: bold;
 }
 
-.ptodashboard-progress h2 {
+.ptodashboard-progress {
   margin-top: 20px;
   font-size: 24px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
 }
 
 .ptodashboard-box h2 {

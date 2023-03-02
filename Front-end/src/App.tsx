@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import PTODashboard from "./PTODashboard";
+import Sidebar from "./Sidebar";
 import "./App.css";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         approved={approved}
         awaitingApproval={awaitingApproval}
       />
+      <Sidebar />
     </div>
   );
 }

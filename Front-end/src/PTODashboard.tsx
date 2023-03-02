@@ -48,7 +48,14 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
             text={`${percentageRemaining}%`}
           />
         </div>
-        <h2 style={{ backgroundColor: "white" }}>
+
+        <h2
+          style={{
+            backgroundColor: "white",
+            fontSize: "30px",
+            marginLeft: "25px",
+          }}
+        >
           You have {percentageRemaining}% of your PTO remaining
         </h2>
       </div>
