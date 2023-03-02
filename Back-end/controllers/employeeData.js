@@ -1,15 +1,8 @@
-const Employee = require("../models/Employee");
+const Employee = require("../models/employee")
 
-const getPTOdata = async (req, res) => {
-	const PTOData = await Employee.find({}, (err, result) => {
-		if (err) {
-			res.json(err);
-		} else {
-			res.json(result);
-		}
-	});
+const getEmployeeData = (req, res, next) => {
+	const employeeData = Employee.find();
+	res.json(employeeData);
 };
 
-module.export = {
-	getPTOdata,
-};
+module.exports = { getEmployeeData };

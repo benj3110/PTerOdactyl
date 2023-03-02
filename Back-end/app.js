@@ -8,13 +8,22 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-mongoose.connect(process.env.MONGO_URI).then(()=>{
-  console.log("Connected to database")
-});
+const port = process.env.PORT || 8000;
 
-// middleware
+// middleware 
+//app.use means that every http request goes through this code. 
+//if youre gonna use a a function in it then use req, res, next. next to continue the code after the function
 app.use(cors());
 app.use(express.json());
-app.listen(8000, () => {
+
+app.listen(port, () => {
 	console.log("Port is listening...");
+});
+
+const employeeDataRoute = require("./routes/employeeData");
+
+app.use("/getEmployeeData", employeeDataRoute);
+
+mongoose.connect(process.env.MONGO_URI).then(() => {
+	console.log("Connected to database");
 });
