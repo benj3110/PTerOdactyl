@@ -20,10 +20,15 @@ app.listen(port, () => {
 	console.log("Port is listening...");
 });
 
-const employeeDataRoute = require("./routes/employeeData");
-
-app.use("/getEmployeeData", employeeDataRoute);
-
 mongoose.connect(process.env.MONGO_URI).then(() => {
 	console.log("Connected to database");
 });
+
+const employeeDataRoute = require("./routes/employeeData");
+app.use("/getEmployeeData", employeeDataRoute);
+
+
+const registrationRoute = require("./routes/registration")
+app.use("/makeEmployee", registrationRoute)
+
+
