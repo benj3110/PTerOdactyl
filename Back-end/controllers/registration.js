@@ -3,8 +3,8 @@ const asyncHandler = require("express-async-handler"); //used instead of try cat
 
 const makeEmployee = asyncHandler(async (req, res, next) => {
 	console.log(req.body)
-	const employeeData = await Employee.create(req.body);
-	res.json({ message: "database updated...." });
+	const makingEmployee = await Employee.create(req.body);
+	res.status(200).json({ message: "database updated...." });
 });
 
 module.exports = { makeEmployee };

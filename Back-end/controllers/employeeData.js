@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler")  //used instead of try cat
 
 const getEmployeeData = asyncHandler(async (req, res, next) => {
 	const employeeData = await Employee.find();
-	res.json(employeeData);
+	res.status(200).json(employeeData);
 }) ;
 
 module.exports = { getEmployeeData };
