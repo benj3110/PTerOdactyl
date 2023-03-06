@@ -3,6 +3,8 @@ import { useState } from "react";
 import PTODashboard from "./PTODashboard";
 import Sidebar from "./Sidebar";
 import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./Router";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -17,7 +19,10 @@ function App() {
         approved={approved}
         awaitingApproval={awaitingApproval}
       />
-      <Sidebar />
+      <BrowserRouter>
+        <Router />
+        <Sidebar />
+      </BrowserRouter>
     </div>
   );
 }
