@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import PTODashboard from "./PTODashboard";
-import BookingForm from "./BookingForm";
+import PTODashboard from "../Dashboard/PTODashboard";
+import BookingForm from "../BookingPage/BookingForm";
 
 const Router: () => JSX.Element = () => {
   return (

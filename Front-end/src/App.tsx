@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import PTODashboard from "./PTODashboard";
-import Sidebar from "./Sidebar";
+import PTODashboard from "./Dashboard/PTODashboard";
+import Sidebar from "./Sidebar/Sidebar";
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
-import Router from "./Router";
+import Router from "./Router/Router";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,11 +14,6 @@ function App() {
 
   return (
     <div className="App">
-      <PTODashboard
-        allowance={allowance}
-        approved={approved}
-        awaitingApproval={awaitingApproval}
-      />
       <BrowserRouter>
         <Router />
         <Sidebar />

@@ -1,15 +1,13 @@
 import Axios, { AxiosResponse } from "axios";
 import bookingObject from "./interfaces/bookingInterfaces";
 
-export const getSingleEmployee: (personID: string) => Promise<any> = async (
-  personID: string
+export const getEmployeeData: (name: string) => Promise<any> = async (
+  name: string
 ) => {
   let userFetch: AxiosResponse<any, any>;
 
   try {
-    userFetch = await Axios.get(
-      `http://localhost:8000/employee/allHours/${personID}`
-    );
+    userFetch = await Axios.get(`http://localhost:8000/getEmployeeData`);
 
     return userFetch.data;
   } catch (error) {
@@ -17,21 +15,21 @@ export const getSingleEmployee: (personID: string) => Promise<any> = async (
   }
 };
 
-export const makeBooking: (
-  bookingSubmit: bookingObject
-) => Promise<AxiosResponse<any, any> | undefined> = async (
-  bookingSubmit: bookingObject
-) => {
-  let bookingPut: AxiosResponse<any, any> | undefined;
+// export const makeBooking: (
+//   bookingSubmit: bookingObject
+// ) => Promise<AxiosResponse<any, any> | undefined> = async (
+//   bookingSubmit: bookingObject
+// ) => {
+//   let bookingPut: AxiosResponse<any, any> | undefined;
 
-  try {
-    bookingPut = await Axios.put(
-      "http://localhost:8000/booking",
-      bookingSubmit
-    );
-  } catch (error) {
-    console.log(error);
-  }
+//   try {
+//     bookingPut = await Axios.put(
+//       "http://localhost:8000/booking",
+//       bookingSubmit
+//     );
+//   } catch (error) {
+//     console.log(error);
+//   }
 
-  return bookingPut;
-};
+//   return bookingPut;
+// };

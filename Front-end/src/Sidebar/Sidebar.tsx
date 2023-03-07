@@ -1,6 +1,7 @@
 import React from "react";
 import "./Sidebar.css";
-import logo from "./Raytheon_Technologies_logo.png";
+import logo from "../Raytheon_Technologies_logo.png";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -9,7 +10,15 @@ const Sidebar = () => {
         <img src={logo} alt="My Company Logo" />
       </div>
       <nav>
-        <ul>
+        <ul className="NavBar-Links">
+          <li>
+            <Link to="/bookingForm"> Book Time Off</Link>
+          </li>
+          <li>
+            <Link to="/">Dashboard</Link>
+          </li>
+        </ul>
+        {/* <ul>
           <li>
             <a href="#">
               <i className="icon fas fa-user"></i>
@@ -28,7 +37,7 @@ const Sidebar = () => {
               <span>PTO dashboard</span>
             </a>
           </li>
-        </ul>
+        </ul> */}
       </nav>
     </div>
   );
