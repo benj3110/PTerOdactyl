@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./PTODashboard.css";
+import { getEmployeeData } from "../utils";
 
 interface PTODashboardProps {
   allowance: number;
@@ -19,6 +20,24 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
   );
 
   const percentageRemaining = Math.round((remaining / allowance) * 100);
+  const name: string = "Benito";
+
+  const [employeeData, setEmployeedata] = useState<any>();
+
+  useEffect(() => {
+    const employeeDataWrap = async () => {
+      setEmployeedata(await getEmployeeData(name));
+    };
+    employeeDataWrap();
+  }, []);
+
+  if (employeeData) {
+    allowance = employeeData.Allowance;
+    //awaitingApproval = employeeData.Remaining;
+  }
+  useEffect(() => {
+    console.log(employeeData);
+  }, [employeeData]);
 
   return (
     <div className="ptodashboard-wrapper">

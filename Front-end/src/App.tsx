@@ -7,10 +7,9 @@ import { BrowserRouter } from "react-router-dom";
 import Router from "./Router/Router";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const allowance = 70;
-  const approved = 40;
-  const awaitingApproval = 10;
+  const allowance = "";
+  const approved = "";
+  const awaitingApproval = "";
 
   return (
     <div className="App">

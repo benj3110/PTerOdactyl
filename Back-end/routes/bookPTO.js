@@ -3,6 +3,6 @@ const router = express.Router();
 
 const PTOController = require("../controllers/PTO");
 
-router.put("/", PTOController.requestPTO);
+router.put("/requestPTO", PTOController.requestPTO);
 
 module.exports = router;

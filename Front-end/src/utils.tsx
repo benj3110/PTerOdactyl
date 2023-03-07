@@ -1,5 +1,6 @@
 import Axios, { AxiosResponse } from "axios";
 import bookingObject from "./interfaces/bookingInterfaces";
+// const url = require("url")
 
 export const getEmployeeData: (name: string) => Promise<any> = async (
   name: string
@@ -7,8 +8,10 @@ export const getEmployeeData: (name: string) => Promise<any> = async (
   let userFetch: AxiosResponse<any, any>;
 
   try {
-    userFetch = await Axios.get(`http://localhost:8000/getEmployeeData`);
-
+    userFetch = await Axios.get(
+      `http://localhost:8000/getEmployeeData/${name}`
+    );
+    //console.log(userFetch.data);
     return userFetch.data;
   } catch (error) {
     console.log(error);

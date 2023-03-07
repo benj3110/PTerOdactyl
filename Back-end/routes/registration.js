@@ -3,6 +3,6 @@ const router = express.Router();
 
 const registrationController = require("../controllers/registration");
 
-router.put("/", registrationController.makeEmployee);
+router.put("/makeEmployee", registrationController.makeEmployee);
 
 module.exports = router;
