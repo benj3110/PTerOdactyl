@@ -6,6 +6,7 @@ const EmployeeSchema = new mongoose.Schema({
 	Allowance: { type: String, required: true },
 	Remaining: { type: String, required: true },
 	UsedDates: [{ type: String, required: false }], //todo turn into list and turn dates into date types?
+	UsedHours: { type: String, require: true},
 	CarriedOver: { type: String, required: false },
 	PendingDates: [{ type: String, required: false }], //todo turn into list
 });
