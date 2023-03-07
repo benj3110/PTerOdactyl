@@ -18,4 +18,16 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 	}
 });
 
-module.exports = { requestPTO };
+const inputPTO = asyncHandler(async (req, res, next) => {
+	const inputtingPTO = await Employee.updateOne(
+		{ Name: req.body.name },
+		{
+			Allowance: req.body.allowance,
+			CarriedOver: req.body.carriedOver,
+			Remaining: req.body.remaining,
+		}
+	);
+	res.status(200).json("PTO data has been updated");
+});
+
+module.exports = { requestPTO, inputPTO };

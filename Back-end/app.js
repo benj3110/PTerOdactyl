@@ -31,7 +31,11 @@ app.use("/getEmployeeData", employeeDataRoute);
 const registrationRoute = require("./routes/registration")
 app.use("/makeEmployee", registrationRoute)
 
-const requestPTORoute = require("./routes/PTO")
+const requestPTORoute = require("./routes/bookPTO")
 app.use("/requestPTO", requestPTORoute)
+
+const inputPTORoute = require("./routes/inputPTO")
+app.use("/inputPTO", inputPTORoute)
+
 
 
