@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import PTODashboard from "../Dashboard/PTODashboard";
 import BookingForm from "../BookingPage/BookingForm";
+import LoginPage from "../Sign in/SignIn";
 
 const Router: () => JSX.Element = () => {
   return (
@@ -15,6 +16,7 @@ const Router: () => JSX.Element = () => {
         />
         <Route path="/bookingForm" element={<BookingForm />} />
         <Route path="*" element={<div>404 Page Not Found!</div>} />
+        <Route path="/signIn" element={<LoginPage />} />
       </Routes>
     </div>
   );
