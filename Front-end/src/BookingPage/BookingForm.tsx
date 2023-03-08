@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-//import { useLocation, useNavigate, NavigateFunction } from "react-router-dom";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import { bookPTO } from "../utils";
 // import { makeBooking } from "../utils";
 // import bookingObject from "../interfaces/bookingInterfaces";
 
@@ -153,7 +154,7 @@ const BookingForm: () => JSX.Element = () => {
 	//const { state } = useLocation();
 	//const employeeID: string = state[`id`];
 	//const availableHoliday: number = state[`availableHours`];
-	//const navigate: NavigateFunction = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	// console.log(state);
 	// console.log(employeeID);
 	// console.log(availableHoliday);
@@ -185,8 +186,8 @@ const BookingForm: () => JSX.Element = () => {
 	);
 
 	// const handleSubmit: () => void = async () => {
-	//   //const fromToCombinedArray = {employeeID: employeeID, bookingFrom: (startDate?.toISOString().substring(0,16)), bookingTo: (endDate?.toISOString().substring(0,16))};
-	//   //setBookingSubmit(fromToCombinedArray);
+	//   const fromToCombinedArray = {employeeID: employeeID, bookingFrom: (startDate?.toISOString().substring(0,16)), bookingTo: (endDate?.toISOString().substring(0,16))};
+	//   setBookingSubmit(fromToCombinedArray);
 
 	//   const bookingSubmit: bookingObject = {
 	//     employeeID: employeeID,
@@ -207,6 +208,24 @@ const BookingForm: () => JSX.Element = () => {
 	//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 	//   await makeBooking(bookingSubmit);
 	// };
+	const handleSubmit: () => void = async () => {
+		const bookingSubmit: {
+			name: string;
+			PendingDates: string;
+			startDate: string;
+			endDate: string;
+		} = {
+			name: "Benito",
+			PendingDates: `${startDate
+				?.toISOString()
+				.substring(0, 16)}-${endDate?.toISOString().substring(0, 16)}`,
+			startDate: startDate?.toISOString().substring(0, 16),
+			endDate: endDate?.toISOString().substring(0, 16),
+		};
+
+		await bookPTO(bookingSubmit);
+		navigate("/");
+	};
 
 	const filterPassedTime = (time: Date) => {
 		const selectedDate: Date = new Date(time);
@@ -248,7 +267,7 @@ const BookingForm: () => JSX.Element = () => {
 			<div className="Second-comp">
 				<div className="BookingForm">
 					<div className="booking-formTitle">
-						<h1>Booking Form</h1>
+						<h1>Book PTO</h1>
 					</div>
 					<div className="available-hours">
 						{/* <label> Available Hours: {availableHoliday}</label> */}
@@ -280,7 +299,7 @@ const BookingForm: () => JSX.Element = () => {
 					</div>
 					<button
 						onClick={() => {
-							// handleSubmit();
+							handleSubmit();
 						}}
 					>
 						{" "}

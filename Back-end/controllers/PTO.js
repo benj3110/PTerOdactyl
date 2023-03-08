@@ -53,7 +53,10 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 	let hoursPTO = minutesPTO / 60;
 	console.log(hoursPTO);
 
-	if (checkPTO.length == 0 && Math.floor(employeeData.Allowance) > hoursPTO) {
+	if (
+		checkPTO.length == 0 &&
+		Math.floor(employeeData.Allowance) >= hoursPTO
+	) {
 		const requestingPTODates = await Employee.updateOne(
 			{ Name: req.body.name },
 			{ $push: { PendingDates: req.body.PendingDates } }

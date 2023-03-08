@@ -18,6 +18,22 @@ export const getEmployeeData: (name: string) => Promise<any> = async (
   }
 };
 
+export const bookPTO: (bookingSubmit:any) => Promise<any> = async ( bookingSubmit:any
+  ) => {
+  let bookingReq: AxiosResponse<any, any> | undefined;
+
+  try {
+    bookingReq = await Axios.put(
+      "http://localhost:8000/requestPTO",
+      bookingSubmit
+    );
+  } catch (error) {
+    console.log(error);
+  }
+
+  return bookingReq;
+  }
+
 // export const makeBooking: (
 //   bookingSubmit: bookingObject
 // ) => Promise<AxiosResponse<any, any> | undefined> = async (
