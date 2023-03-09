@@ -55,7 +55,7 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 
 	if (
 		checkPTO.length == 0 &&
-		Math.floor(employeeData.Allowance) >= hoursPTO
+		Math.floor(employeeData.Remaining) >= hoursPTO
 	) {
 		const requestingPTODates = await Employee.updateOne(
 			{ Name: req.body.name },
@@ -65,7 +65,7 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 			{ Name: req.body.name },
 			{
 				$set: {
-					Allowance: (employeeData.Allowance - hoursPTO).toString(),
+					Remaining: (employeeData.Remaining - hoursPTO).toString(),
 				},
 			}
 		);

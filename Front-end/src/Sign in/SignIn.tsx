@@ -1,44 +1,49 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { getEmployeeData } from "../utils";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
-interface LoginPageProps {}
 
-const LoginPage: React.FC<LoginPageProps> = () => {
-	const [name, setName] = useState<string>("");
-	let loggedIn: boolean = false;
+
+const LoginPage: React.FC<any> = (props) => {
+	//const [name, setName] = useState<string>("");
+  const empName = props.name
+  const setEmpName = props.setName
+	const loggedIn = props.loggedIn 
+  const setLoggedIn = props.setLoggedIn
+
 	const navigate: NavigateFunction = useNavigate();
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setName(event.target.value);
+		setEmpName(event.target.value);
 	};
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		try {
-			const nameCheck = await getEmployeeData(name);
+			const nameCheck = await getEmployeeData(empName);
 			if (nameCheck) {
-				loggedIn = true;
-				navigate("/");
-			}
+				setLoggedIn(true);
+				//navigate("/", {state: {name: empName}});
+			}else {
+        console.log("name doesn't match")
+      }
 			console.log(nameCheck);
 		} catch (error) {
 			console.error(error);
 		}
 	};
-	// useEffect(() => {
-	//   console.log("rerendering")
-	// },[loggedIn])
 
 	const handleClick = (event: any) => {
-		loggedIn = false;
-		console.log(loggedIn);
+		setLoggedIn(false)
+    setEmpName("")
+		console.log(loggedIn.valueOf);
 	};
+  console.log(loggedIn)
+  let x = false
 
 	return (
 		<div>
-			{(loggedIn = false) ? (
+			{(loggedIn == false) ? (
 				<div>
 					<h1>Login</h1>
 					<form onSubmit={handleSubmit}>
@@ -48,7 +53,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
 								type="text"
 								id="name"
 								name="name"
-								value={name}
+								value={empName}
 								onChange={handleNameChange}
 							/>
 						</div>

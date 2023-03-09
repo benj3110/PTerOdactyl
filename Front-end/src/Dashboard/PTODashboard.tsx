@@ -3,22 +3,22 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./PTODashboard.css";
 import { getEmployeeData } from "../utils";
+import { useLocation } from "react-router-dom";
 
-interface PTODashboardProps {
-	allowance: number;
-	approved: number;
-	awaitingApproval: number;
-}
+// interface PTODashboardProps {
+// 	allowance: number;
+// 	approved: number;
+// 	awaitingApproval: number;
+// }
 
-const PTODashboard: React.FC<PTODashboardProps> = ({
-	allowance,
-	approved,
-	awaitingApproval,
-}) => {
-	const [remaining, setRemaining] = useState<number>(
-		allowance - approved - awaitingApproval
-	);
-	
+const PTODashboard: React.FC<any> = (props) => {
+	// const [remaining, setRemaining] = useState<number>(
+	// 	allowance - approved - awaitingApproval
+	// );
+  const empName = props.name
+	const {state} = useLocation();
+
+
 	// -----
 	// const [allowanceInput, setAllowanceInput] = useState<number>(allowance);
   	// const [approvedInput, setApprovedInput] = useState<number>(approved);
@@ -27,8 +27,8 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
   	// ); 
 //   ^^^^^^^^
 
-	const percentageRemaining = Math.round((remaining / allowance) * 100);
-	const name: string = "Benito";
+	//const percentageRemaining = Math.round((remaining / allowance) * 100);
+	const name: string = empName;
 
 	const [employeeData, setEmployeedata] = useState<any>();
 
@@ -50,10 +50,10 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
 	//   }
 	//   ^^^^^^^^
 
-	if (employeeData) {
-		allowance = employeeData.Allowance;
-		//awaitingApproval = employeeData.Remaining;
-	}
+	// if (employeeData) {
+	// 	allowance = employeeData.Allowance;
+	// 	//awaitingApproval = employeeData.Remaining;
+	// }
 	useEffect(() => {
 		console.log(employeeData);
 	}, [employeeData]);
@@ -64,28 +64,30 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
 			<div className="ptodashboard-container">
 				<div className="ptodashboard-box">
 					<h2>Current Allowance</h2>
-					<h3>{allowance} hours</h3>
+					<h3>{employeeData?.Allowance} hours</h3>
 				</div>
 				<div className="ptodashboard-box">
-					<h2>Approved Hours</h2>
-					<h3>{approved} hours</h3>
+					<h2>Carried Over From Previous Year</h2>
+					<h3>{employeeData?.CarriedOver} hours</h3>
 				</div>
 				<div className="ptodashboard-box">
-					<h2>Awaiting Approval</h2>
-					<h3>{awaitingApproval} hours</h3>
+					<h2>Pending Dates</h2>
+					<h3>
+            {employeeData?.PendingDates.map((date: string | null | undefined) => <h3>{date}</h3>)}
+          </h3>
 				</div>
 				<div className="ptodashboard-box">
 					<h2>Remaining Hours</h2>
-					<h3>{remaining} hours</h3>
+					<h3>{employeeData?.Remaining} hours</h3>
 				</div>
 			</div>
 			<div className="ptodashboard-progress">
-				<div style={{ width: "100px", height: "100px" }}>
+				{/* <div style={{ width: "100px", height: "100px" }}>
 					<CircularProgressbar
 						value={percentageRemaining}
 						text={`${percentageRemaining}%`}
 					/>
-				</div>
+				</div> */}
 
 			
 
@@ -96,7 +98,7 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
 						marginLeft: "25px",
 					}}
 				>
-					You have {percentageRemaining}% of your PTO remaining
+					You have % of your PTO remaining
 				</h2>
 			</div>
 		</div>
