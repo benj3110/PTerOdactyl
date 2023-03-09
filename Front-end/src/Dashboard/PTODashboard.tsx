@@ -18,13 +18,13 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
 	const [remaining, setRemaining] = useState<number>(
 		allowance - approved - awaitingApproval
 	);
-	/
+	
 	// -----
-	const [allowanceInput, setAllowanceInput] = useState<number>(allowance);
-  	const [approvedInput, setApprovedInput] = useState<number>(approved);
-  	const [awaitingApprovalInput, setAwaitingApprovalInput] = useState<number>(
-    awaitingApproval
-  	); 
+	// const [allowanceInput, setAllowanceInput] = useState<number>(allowance);
+  	// const [approvedInput, setApprovedInput] = useState<number>(approved);
+  	// const [awaitingApprovalInput, setAwaitingApprovalInput] = useState<number>(
+    // awaitingApproval
+  	// ); 
 //   ^^^^^^^^
 
 	const percentageRemaining = Math.round((remaining / allowance) * 100);
@@ -40,14 +40,14 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
 	}, []);
 
 	// ----------
-	useEffect(() => {
-		setRemaining(allowanceInput - approvedInput - awaitingApprovalInput);
-	  }, [allowanceInput, approvedInput, awaitingApprovalInput]);
+	// useEffect(() => {
+	// 	setRemaining(allowanceInput - approvedInput - awaitingApprovalInput);
+	//   }, [allowanceInput, approvedInput, awaitingApprovalInput]);
 	
-	  if (employeeData) {
-		setAllowanceInput(employeeData.Allowance);
-		// setAwaitingApprovalInput(employeeData.Remaining);
-	  }
+	//   if (employeeData) {
+	// 	setAllowanceInput(employeeData.Allowance);
+	// 	// setAwaitingApprovalInput(employeeData.Remaining);
+	//   }
 	//   ^^^^^^^^
 
 	if (employeeData) {
