@@ -51,7 +51,16 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 		// }
 	}
 	let hoursPTO = minutesPTO / 60;
-	console.log(hoursPTO);
+	let counter = 0;
+	const remaining = employeeData.Remaining - hoursPTO;
+	let newCarried = Math.floor(employeeData?.CarriedOver);
+	console.log(newCarried);
+
+	while (newCarried > 0 && counter < hoursPTO) {
+		newCarried -= 0.5;
+		counter += 0.5;
+		console.log(newCarried);
+	}
 
 	if (
 		checkPTO.length == 0 &&
@@ -65,7 +74,8 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 			{ Name: req.body.name },
 			{
 				$set: {
-					Remaining: (employeeData.Remaining - hoursPTO).toString(),
+					Remaining: remaining.toString(),
+					CarriedOver: newCarried,
 				},
 			}
 		);
@@ -82,6 +92,7 @@ const inputPTO = asyncHandler(async (req, res, next) => {
 			Allowance: req.body.allowance,
 			CarriedOver: req.body.carriedOver,
 			Remaining: req.body.remaining,
+			PendingDates: "",
 		}
 	);
 	res.status(200).json("PTO data has been updated");

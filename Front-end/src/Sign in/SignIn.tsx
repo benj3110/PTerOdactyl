@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getEmployeeData } from "../utils";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 
-
-
 const LoginPage: React.FC<any> = (props) => {
 	//const [name, setName] = useState<string>("");
-  const empName = props.name
-  const setEmpName = props.setName
-	const loggedIn = props.loggedIn 
-  const setLoggedIn = props.setLoggedIn
+	const empName = props.name;
+	const setEmpName = props.setName;
+	const loggedIn = props.loggedIn;
+	const setLoggedIn = props.setLoggedIn;
 
 	const navigate: NavigateFunction = useNavigate();
 
@@ -23,10 +21,10 @@ const LoginPage: React.FC<any> = (props) => {
 			const nameCheck = await getEmployeeData(empName);
 			if (nameCheck) {
 				setLoggedIn(true);
-				//navigate("/", {state: {name: empName}});
-			}else {
-        console.log("name doesn't match")
-      }
+				navigate("/");
+			} else {
+				console.log("name doesn't match");
+			}
 			console.log(nameCheck);
 		} catch (error) {
 			console.error(error);
@@ -34,16 +32,16 @@ const LoginPage: React.FC<any> = (props) => {
 	};
 
 	const handleClick = (event: any) => {
-		setLoggedIn(false)
-    setEmpName("")
+		setLoggedIn(false);
+		setEmpName("");
 		console.log(loggedIn.valueOf);
 	};
-  console.log(loggedIn)
-  let x = false
+	console.log(loggedIn);
+	let x = false;
 
 	return (
 		<div>
-			{(loggedIn == false) ? (
+			{loggedIn == false ? (
 				<div>
 					<h1>Login</h1>
 					<form onSubmit={handleSubmit}>

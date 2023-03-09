@@ -4,8 +4,6 @@ import logo from "../Raytheon_Technologies_logo.png";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-
-  
 	return (
 		<div className="sidebar">
 			<div className="logo">

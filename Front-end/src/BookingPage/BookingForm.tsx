@@ -3,37 +3,38 @@ import DatePicker from "react-datepicker";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { bookPTO } from "../utils";
+import "react-datepicker/dist/react-datepicker.css";
 
 const BookingForm: React.FC<any> = (props) => {
 	const navigate: NavigateFunction = useNavigate();
-	const empName:string = props.name
-
+	const empName: string = props.name;
 
 	const todaysDate: Date = new Date();
 
 	console.log(todaysDate.toISOString().substring(0, 16));
 
+	const mins = todaysDate.getMinutes()
+	if (mins < 29){
+		todaysDate.setMinutes(30)
+	} else {
+		todaysDate.setMinutes(0)
+		todaysDate.setHours(todaysDate.getHours() + 1)
+	}
+	console.log(todaysDate)
+
+
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
 
-	const [endDate, setEndDate] = useState<Date>(
-		new Date(
-			`${todaysDate.toISOString().substring(0, 8)}${
-				todaysDate.getDate() < 9 ? "0" : ""
-			}${todaysDate.getDate() + 1}${todaysDate
-				.toISOString()
-				.substring(10, 16)}`
-		)
-	);
-	
+	const [endDate, setEndDate] = useState<Date|undefined>();
+
 	console.log(empName);
-	
 
 	const handleSubmit: () => void = async () => {
 		const bookingSubmit: {
 			name: string;
 			PendingDates: string;
 			startDate: string;
-			endDate: string;
+			endDate: string| undefined;
 		} = {
 			name: empName,
 			PendingDates: `${startDate
@@ -51,11 +52,11 @@ const BookingForm: React.FC<any> = (props) => {
 		const selectedDate: Date = new Date(time);
 		const startTime: Date = new Date(time);
 		const endTime: Date = new Date(time);
-		startTime.setHours(8, 30);
+		startTime.setHours(9);
 		if (endTime.getDay() === 5) {
-			endTime.setHours(13, 29);
+			endTime.setHours(14);
 		} else {
-			endTime.setHours(16, 59);
+			endTime.setHours(17);
 		}
 
 		if (
@@ -91,7 +92,7 @@ const BookingForm: React.FC<any> = (props) => {
 					</div>
 					<div>
 						From:
-						<DatePicker
+						<DatePicker 
 							selected={startDate}
 							onChange={(date: Date) => setStartDate(date)}
 							showTimeSelect
@@ -100,6 +101,7 @@ const BookingForm: React.FC<any> = (props) => {
 							//minTime={setHours(setMinutes(new Date(), 0), 17)}
 							//maxTime={setHours(setMinutes(new Date(), 30), 20)}
 							dateFormat="do MMMM Y HH:mm"
+							fixedHeight
 						/>
 					</div>
 					<div>
@@ -112,6 +114,7 @@ const BookingForm: React.FC<any> = (props) => {
 							//minTime={setHours(setMinutes(new Date(), 0), 17)}
 							//maxTime={setHours(setMinutes(new Date(), 30), 20)}
 							dateFormat="do MMMM Y HH:mm"
+							fixedHeight
 						/>
 					</div>
 					<button
