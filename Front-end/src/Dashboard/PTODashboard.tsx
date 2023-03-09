@@ -3,21 +3,6 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./PTODashboard.css";
 import { getEmployeeData } from "../utils";
-// import InputBox from '../InputPTO/InputBox';
-
-// interface PTOFormProps {
-//   ptoAllowance: number;
-//   approvedHours: number;
-//   awaitingApprovalHours: number;
-//   remainingHours: number;
-// }
-
-// const PTOForm: React.FC<PTOFormProps> = ({ ptoAllowance, approvedHours, awaitingApprovalHours, remainingHours }) => {
-//   const [currentPTO, setCurrentPTO] = useState(ptoAllowance);
-//   const [currentApprovedHours, setCurrentApprovedHours] = useState(approvedHours);
-//   const [currentAwaitingApprovalHours, setCurrentAwaitingApprovalHours] = useState(awaitingApprovalHours);
-//   const [currentRemainingHours, setCurrentRemainingHours] = useState(remainingHours);
-// }
 
 interface PTODashboardProps {
 	allowance: number;
@@ -33,6 +18,14 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
 	const [remaining, setRemaining] = useState<number>(
 		allowance - approved - awaitingApproval
 	);
+	/
+	// -----
+	const [allowanceInput, setAllowanceInput] = useState<number>(allowance);
+  	const [approvedInput, setApprovedInput] = useState<number>(approved);
+  	const [awaitingApprovalInput, setAwaitingApprovalInput] = useState<number>(
+    awaitingApproval
+  	); 
+//   ^^^^^^^^
 
 	const percentageRemaining = Math.round((remaining / allowance) * 100);
 	const name: string = "Benito";
@@ -45,6 +38,17 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
 		};
 		employeeDataWrap();
 	}, []);
+
+	// ----------
+	useEffect(() => {
+		setRemaining(allowanceInput - approvedInput - awaitingApprovalInput);
+	  }, [allowanceInput, approvedInput, awaitingApprovalInput]);
+	
+	  if (employeeData) {
+		setAllowanceInput(employeeData.Allowance);
+		// setAwaitingApprovalInput(employeeData.Remaining);
+	  }
+	//   ^^^^^^^^
 
 	if (employeeData) {
 		allowance = employeeData.Allowance;
@@ -83,13 +87,7 @@ const PTODashboard: React.FC<PTODashboardProps> = ({
 					/>
 				</div>
 
-				{/* <div>
-      <InputBox label="PTO Allowance" value={currentPTO} onChange={setCurrentPTO} />
-      <InputBox label="Approved Hours" value={currentApprovedHours} onChange={setCurrentApprovedHours} />
-      <InputBox label="Hours Awaiting Approval" value={currentAwaitingApprovalHours} onChange={setCurrentAwaitingApprovalHours} />
-      <InputBox label="Remaining Hours" />
-        </div>
-         */}
+			
 
 				<h2
 					style={{
