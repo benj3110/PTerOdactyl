@@ -4,6 +4,7 @@ import { useNavigate, NavigateFunction } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { bookPTO } from "../utils";
 import "react-datepicker/dist/react-datepicker.css";
+import "./BookingForm.css"
 
 const BookingForm: React.FC<any> = (props) => {
 	const navigate: NavigateFunction = useNavigate();
@@ -13,19 +14,23 @@ const BookingForm: React.FC<any> = (props) => {
 
 	console.log(todaysDate.toISOString().substring(0, 16));
 
-	const mins = todaysDate.getMinutes()
-	if (mins < 29){
-		todaysDate.setMinutes(30)
+	const mins = todaysDate.getMinutes();
+	if (mins < 29) {
+		todaysDate.setMinutes(29);
 	} else {
-		todaysDate.setMinutes(0)
-		todaysDate.setHours(todaysDate.getHours() + 1)
+		todaysDate.setMinutes(59);
+		console.log(todaysDate)
+		//todaysDate.setHours(todaysDate.getHours() + 1);
+		//todaysDate.setMilliseconds(0);
+		console.log(todaysDate)
 	}
 	console.log(todaysDate)
 
+	console.log(todaysDate);
 
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
 
-	const [endDate, setEndDate] = useState<Date|undefined>();
+	const [endDate, setEndDate] = useState<Date | undefined>();
 
 	console.log(empName);
 
@@ -34,12 +39,14 @@ const BookingForm: React.FC<any> = (props) => {
 			name: string;
 			PendingDates: string;
 			startDate: string;
-			endDate: string| undefined;
+			endDate: string | undefined;
 		} = {
 			name: empName,
 			PendingDates: `${startDate
 				?.toISOString()
-				.substring(0, 16)}-${endDate?.toISOString().substring(0, 16)}`,
+				.substring(0, 16)} # ${endDate
+				?.toISOString()
+				.substring(0, 16)}`,
 			startDate: startDate?.toISOString().substring(0, 16),
 			endDate: endDate?.toISOString().substring(0, 16),
 		};
@@ -92,7 +99,7 @@ const BookingForm: React.FC<any> = (props) => {
 					</div>
 					<div>
 						From:
-						<DatePicker 
+						<DatePicker
 							selected={startDate}
 							onChange={(date: Date) => setStartDate(date)}
 							showTimeSelect
@@ -117,7 +124,7 @@ const BookingForm: React.FC<any> = (props) => {
 							fixedHeight
 						/>
 					</div>
-					<button
+					<button className="bookPTOButton"
 						onClick={() => {
 							handleSubmit();
 						}}

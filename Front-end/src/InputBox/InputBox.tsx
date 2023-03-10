@@ -1,7 +1,10 @@
 import { useState } from "react";
+//import { useNavigate } from "react-router-dom";
 import { inputPTO } from "../utils";
+import "./InputBox.css"
 
 const InputBox: React.FC<any> = (props) => {
+	//const navigate = useNavigate();
 	const empName = props.name;
 	const [allowance, setAllowance] = useState("");
 	const [carried, setCarried] = useState("");
@@ -31,11 +34,12 @@ const InputBox: React.FC<any> = (props) => {
         setAllowance("")
         setCarried("")
         setRemaining("")
+		//navigate("/bookingForm")
 	};
 	//console.log(`${allowance},${carried},${remaining}`);
 
 	return (
-		<div>
+		<div className="InputBoxes">
 			<form>
 				Enter Allowance (hr)
 				<input
@@ -66,7 +70,7 @@ const InputBox: React.FC<any> = (props) => {
 					onChange={handleInputChange}
 				/>
 			</form>
-			<button onClick={handleSubmit}> Submit PTO Data</button>
+			<button className="PTOInputButton" onClick={handleSubmit}> Submit PTO Data</button>
 		</div>
 	);
 };

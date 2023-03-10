@@ -19,44 +19,24 @@ const PTODashboard: React.FC<any> = (props) => {
 	const empName = props.name;
 	const { state } = useLocation();
 
-	// -----
-	// const [allowanceInput, setAllowanceInput] = useState<number>(allowance);
-	// const [approvedInput, setApprovedInput] = useState<number>(approved);
-	// const [awaitingApprovalInput, setAwaitingApprovalInput] = useState<number>(
-	// awaitingApproval
-	// );
-	//   ^^^^^^^^
+	const [allowance, setAllowance] = useState<string>("");
+	const [carried, setCarried] = useState<string>("");
+	const [remaining, setRemaining] = useState<string>("");
 
 	const name: string = empName;
-  
+
 	const [employeeData, setEmployeedata] = useState<any>();
-  
+
 	useEffect(() => {
-    const employeeDataWrap = async () => {
-      setEmployeedata(await getEmployeeData(name));
+		const employeeDataWrap = async () => {
+			setEmployeedata(await getEmployeeData(name));
 		};
 		employeeDataWrap();
 	}, []);
-  
-  const percentageRemaining = Math.round((employeeData?.Remaining / employeeData?.Allowance) * 100);
-	// ----------
-	// useEffect(() => {
-	// 	setRemaining(allowanceInput - approvedInput - awaitingApprovalInput);
-	//   }, [allowanceInput, approvedInput, awaitingApprovalInput]);
 
-	//   if (employeeData) {
-	// 	setAllowanceInput(employeeData.Allowance);
-	// 	// setAwaitingApprovalInput(employeeData.Remaining);
-	//   }
-	//   ^^^^^^^^
-
-	// if (employeeData) {
-	// 	allowance = employeeData.Allowance;
-	// 	//awaitingApproval = employeeData.Remaining;
-	// }
-	useEffect(() => {
-		console.log(employeeData);
-	}, [employeeData]);
+	const percentageRemaining = Math.round(
+		(employeeData?.Remaining / employeeData?.Allowance) * 100
+	);
 
 	return (
 		<div className="ptodashboard-wrapper">
@@ -100,12 +80,12 @@ const PTODashboard: React.FC<any> = (props) => {
 						marginLeft: "25px",
 					}}
 				>
-					You have % of your PTO remaining
+					of your PTO remaining
 				</h2>
 			</div>
-      <div>
-          <InputBox name = {empName}/>
-      </div>
+			<div>
+				<InputBox name={empName} />
+			</div>
 		</div>
 	);
 };
