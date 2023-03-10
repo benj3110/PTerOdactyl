@@ -19,13 +19,11 @@ const BookingForm: React.FC<any> = (props) => {
 		todaysDate.setMinutes(29);
 	} else {
 		todaysDate.setMinutes(59);
-		console.log(todaysDate)
+
 		//todaysDate.setHours(todaysDate.getHours() + 1);
 		//todaysDate.setMilliseconds(0);
-		console.log(todaysDate)
+		
 	}
-	console.log(todaysDate)
-
 	console.log(todaysDate);
 
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
