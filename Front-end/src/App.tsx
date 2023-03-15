@@ -1,21 +1,22 @@
 import React from "react";
 import { useState } from "react";
-import PTODashboard from "./PTODashboard";
+import PTODashboard from "./Dashboard/PTODashboard";
+import Sidebar from "./Sidebar/Sidebar";
 import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./Router/Router";
 
-function App() {
-  const [count, setCount] = useState(0);
-  const allowance = 70;
-  const approved = 40;
-  const awaitingApproval = 10;
+function App(): JSX.Element {
+  const allowance = "";
+  const approved = "";
+  const awaitingApproval = "";
 
   return (
     <div className="App">
-      <PTODashboard
-        allowance={allowance}
-        approved={approved}
-        awaitingApproval={awaitingApproval}
-      />
+      <BrowserRouter>
+        <Router />
+        <Sidebar />
+      </BrowserRouter>
     </div>
   );
 }
