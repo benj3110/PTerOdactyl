@@ -4,8 +4,8 @@ import PTODashboard from "../Dashboard/PTODashboard";
 import BookingForm from "../BookingPage/BookingForm";
 import LoginPage from "../Sign in/SignIn";
 
-const Router: () => JSX.Element = () => {
-	const [name, setName] = useState("");
+const Router: React.FC = () => {
+	const [name, setName] = useState<string>("");
 	const [loggedIn, setLoggedIn] = useState<boolean>(false);
 	return (
 		<div>

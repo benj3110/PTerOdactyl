@@ -4,17 +4,21 @@ import { useNavigate, NavigateFunction } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { bookPTO } from "../utils";
 import "react-datepicker/dist/react-datepicker.css";
-import "./BookingForm.css"
+import "./BookingForm.css";
+interface bookingProps{
+	name: string
+}
 
-const BookingForm: React.FC<any> = (props) => {
+const BookingForm: React.FC<bookingProps> = ({name}) => {
 	const navigate: NavigateFunction = useNavigate();
-	const empName: string = props.name;
+
 
 	const todaysDate: Date = new Date();
 
 	console.log(todaysDate.toISOString().substring(0, 16));
 
-	const mins = todaysDate.getMinutes();
+	const mins:number = todaysDate.getMinutes();
+
 	if (mins < 29) {
 		todaysDate.setMinutes(29);
 	} else {
@@ -22,15 +26,15 @@ const BookingForm: React.FC<any> = (props) => {
 
 		//todaysDate.setHours(todaysDate.getHours() + 1);
 		//todaysDate.setMilliseconds(0);
-		
 	}
+
 	console.log(todaysDate);
 
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
 
 	const [endDate, setEndDate] = useState<Date | undefined>();
 
-	console.log(empName);
+	console.log(name);
 
 	const handleSubmit: () => void = async () => {
 		const bookingSubmit: {
@@ -39,7 +43,7 @@ const BookingForm: React.FC<any> = (props) => {
 			startDate: string;
 			endDate: string | undefined;
 		} = {
-			name: empName,
+			name: name,
 			PendingDates: `${startDate
 				?.toISOString()
 				.substring(0, 16)} # ${endDate
@@ -53,7 +57,7 @@ const BookingForm: React.FC<any> = (props) => {
 		navigate("/");
 	};
 
-	const filterPassedTime = (time: Date) => {
+	const filterPassedTime: (time: Date) => boolean = (time: Date) => {
 		const selectedDate: Date = new Date(time);
 		const startTime: Date = new Date(time);
 		const endTime: Date = new Date(time);
@@ -92,9 +96,7 @@ const BookingForm: React.FC<any> = (props) => {
 					<div className="booking-formTitle">
 						<h1>Book PTO</h1>
 					</div>
-					<div className="available-hours">
-						{/* <label> Available Hours: {availableHoliday}</label> */}
-					</div>
+					
 					<div>
 						From:
 						<DatePicker
@@ -122,7 +124,8 @@ const BookingForm: React.FC<any> = (props) => {
 							fixedHeight
 						/>
 					</div>
-					<button className="bookPTOButton"
+					<button
+						className="bookPTOButton"
 						onClick={() => {
 							handleSubmit();
 						}}

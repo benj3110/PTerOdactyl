@@ -3,12 +3,21 @@ import { useState } from "react";
 import { inputPTO } from "../utils";
 import "./InputBox.css"
 
-const InputBox: React.FC<any> = (props) => {
-	//const navigate = useNavigate();
-	const empName = props.name;
-	const [allowance, setAllowance] = useState("");
-	const [carried, setCarried] = useState("");
-	const [remaining, setRemaining] = useState("");
+interface inputBoxProps {
+	name:string
+}
+interface inputPTOSubmitInterface{
+	name: string;
+	allowance: string;
+	carriedOver: string;
+	remaining: string;
+} 
+
+const InputBox: React.FC<inputBoxProps> = ({name}) => {
+
+	const [allowance, setAllowance] = useState<string>("");
+	const [carried, setCarried] = useState<string>("");
+	const [remaining, setRemaining] = useState<string>("");
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.id == "allowance") {
 			setAllowance(event.target.value);
@@ -18,14 +27,9 @@ const InputBox: React.FC<any> = (props) => {
 			setRemaining(event.target.value);
 		}
 	};
-	const handleSubmit = async () => {
-		const inputPTOSubmit: {
-			name: string;
-			allowance: string;
-			carriedOver: string;
-			remaining: string;
-		} = {
-			name: empName,
+	const handleSubmit: () => Promise<void> = async () => {
+		const inputPTOSubmit: inputPTOSubmitInterface = {
+			name: name,
 			allowance: allowance,
 			carriedOver: carried,
 			remaining: remaining,
@@ -36,7 +40,7 @@ const InputBox: React.FC<any> = (props) => {
         setRemaining("")
 		//navigate("/bookingForm")
 	};
-	//console.log(`${allowance},${carried},${remaining}`);
+
 
 	return (
 		<div className="InputBoxes">

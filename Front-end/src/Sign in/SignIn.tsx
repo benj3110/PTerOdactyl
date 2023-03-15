@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { getEmployeeData } from "../utils";
 import { useNavigate, NavigateFunction } from "react-router-dom";
+interface loginInterface {
+	name: string;
+	setName: React.Dispatch<React.SetStateAction<string>>;
+	loggedIn: boolean;
+	setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const LoginPage: React.FC<any> = (props) => {
-	//const [name, setName] = useState<string>("");
-	const empName = props.name;
-	const setEmpName = props.setName;
-	const loggedIn = props.loggedIn;
-	const setLoggedIn = props.setLoggedIn;
-
+const LoginPage: React.FC<loginInterface> = ({
+	name,
+	setName,
+	loggedIn,
+	setLoggedIn,
+}) => {
 	const navigate: NavigateFunction = useNavigate();
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setEmpName(event.target.value);
+		setName(event.target.value);
 	};
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		try {
-			const nameCheck = await getEmployeeData(empName);
+			const nameCheck = await getEmployeeData(name);
 			if (nameCheck) {
 				setLoggedIn(true);
 				navigate("/");
@@ -31,13 +36,12 @@ const LoginPage: React.FC<any> = (props) => {
 		}
 	};
 
-	const handleClick = (event: any) => {
+	const handleClick: (event: any) => void = (event: any) => {
 		setLoggedIn(false);
-		setEmpName("");
+		setName("");
 		console.log(loggedIn.valueOf);
 	};
 	console.log(loggedIn);
-	let x = false;
 
 	return (
 		<div>
@@ -51,7 +55,7 @@ const LoginPage: React.FC<any> = (props) => {
 								type="text"
 								id="name"
 								name="name"
-								value={empName}
+								value={name}
 								onChange={handleNameChange}
 							/>
 						</div>

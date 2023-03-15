@@ -5,27 +5,14 @@ import "./PTODashboard.css";
 import { getEmployeeData } from "../utils";
 import { useLocation } from "react-router-dom";
 import InputBox from "../InputBox/InputBox";
+import { employeeDataInterface } from "../interfaces/employDataInterface";
 
-// interface PTODashboardProps {
-// 	allowance: number;
-// 	approved: number;
-// 	awaitingApproval: number;
-// }
+interface PTODashboardProps {
+	name: string;
+}
 
-const PTODashboard: React.FC<any> = (props) => {
-	// const [remaining, setRemaining] = useState<number>(
-	// 	allowance - approved - awaitingApproval
-	// );
-	const empName = props.name;
-	const { state } = useLocation();
-
-	const [allowance, setAllowance] = useState<string>("");
-	const [carried, setCarried] = useState<string>("");
-	const [remaining, setRemaining] = useState<string>("");
-
-	const name: string = empName;
-
-	const [employeeData, setEmployeedata] = useState<any>();
+const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
+	const [employeeData, setEmployeedata] = useState<employeeDataInterface>();
 
 	useEffect(() => {
 		const employeeDataWrap = async () => {
@@ -34,13 +21,19 @@ const PTODashboard: React.FC<any> = (props) => {
 		employeeDataWrap();
 	}, []);
 
+
 	const percentageRemaining = Math.round(
-		(employeeData?.Remaining / employeeData?.Allowance) * 100
+		(Number(employeeData?.Remaining) / Number(employeeData?.Allowance)) * 100
 	);
+
+	console.log(employeeData);
 
 	return (
 		<div className="ptodashboard-wrapper">
 			<h1>Paid Time Off Dashboard</h1>
+			<div className="InputBox_C">
+				<InputBox name={name} />
+			</div>
 			<div className="ptodashboard-container">
 				<div className="ptodashboard-box">
 					<h2>Current Allowance</h2>
@@ -53,7 +46,7 @@ const PTODashboard: React.FC<any> = (props) => {
 				<div className="ptodashboard-box">
 					<h2>Pending Dates</h2>
 					<h3>
-						{employeeData?.PendingDates.map(
+						{employeeData?.PendingDates?.map(
 							(date: string | null | undefined) => (
 								<h3>{date}</h3>
 							)
@@ -83,9 +76,7 @@ const PTODashboard: React.FC<any> = (props) => {
 					of your PTO remaining
 				</h2>
 			</div>
-			<div>
-				<InputBox name={empName} />
-			</div>
+			
 		</div>
 	);
 };

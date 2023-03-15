@@ -6,7 +6,7 @@ import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import Router from "./Router/Router";
 
-function App() {
+function App(): JSX.Element {
   const allowance = "";
   const approved = "";
   const awaitingApproval = "";
