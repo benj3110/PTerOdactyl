@@ -1,20 +1,19 @@
 import { useState } from "react";
 //import { useNavigate } from "react-router-dom";
 import { inputPTO } from "../utils";
-import "./InputBox.css"
+import "./InputBox.css";
 
 interface inputBoxProps {
-	name:string
+	name: string;
 }
-interface inputPTOSubmitInterface{
+interface inputPTOSubmitInterface {
 	name: string;
 	allowance: string;
 	carriedOver: string;
 	remaining: string;
-} 
+}
 
-const InputBox: React.FC<inputBoxProps> = ({name}) => {
-
+const InputBox: React.FC<inputBoxProps> = ({ name }) => {
 	const [allowance, setAllowance] = useState<string>("");
 	const [carried, setCarried] = useState<string>("");
 	const [remaining, setRemaining] = useState<string>("");
@@ -35,12 +34,11 @@ const InputBox: React.FC<inputBoxProps> = ({name}) => {
 			remaining: remaining,
 		};
 		await inputPTO(inputPTOSubmit);
-        setAllowance("")
-        setCarried("")
-        setRemaining("")
+		setAllowance("");
+		setCarried("");
+		setRemaining("");
 		//navigate("/bookingForm")
 	};
-
 
 	return (
 		<div className="InputBoxes">
@@ -74,7 +72,10 @@ const InputBox: React.FC<inputBoxProps> = ({name}) => {
 					onChange={handleInputChange}
 				/>
 			</form>
-			<button className="PTOInputButton" onClick={handleSubmit}> Submit PTO Data</button>
+			<button className="PTOInputButton" onClick={handleSubmit}>
+				{" "}
+				Submit PTO Data
+			</button>
 		</div>
 	);
 };

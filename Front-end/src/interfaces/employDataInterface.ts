@@ -6,5 +6,7 @@ export interface employeeDataInterface {
 	UsedDates?: string[]
 	UsedHours?: string,
 	CarriedOver?: string,
-	PendingDates?: string[]
+	PendingDates?: string[],
+	ManagingNames?: string[],
+	Manager?: string
 }

@@ -3,10 +3,25 @@ import { Route, Routes } from "react-router-dom";
 import PTODashboard from "../Dashboard/PTODashboard";
 import BookingForm from "../BookingPage/BookingForm";
 import LoginPage from "../Sign in/SignIn";
+import ManagersPage from "../ManagersPage/ManagersPage";
 
-const Router: React.FC = () => {
-	const [name, setName] = useState<string>("");
-	const [loggedIn, setLoggedIn] = useState<boolean>(false);
+interface routerProps {
+	isManager: boolean;
+	setIsManager: React.Dispatch<React.SetStateAction<boolean>>;
+	name: string;
+	setName: React.Dispatch<React.SetStateAction<string>>;
+	loggedIn: boolean;
+	setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Router: React.FC<routerProps> = ({
+	isManager,
+	setIsManager,
+	name,
+	setName,
+	loggedIn,
+	setLoggedIn,
+}) => {
 	return (
 		<div>
 			<Routes>
@@ -18,6 +33,8 @@ const Router: React.FC = () => {
 							setName={setName}
 							loggedIn={loggedIn}
 							setLoggedIn={setLoggedIn}
+							isManager={isManager}
+							setIsManager={setIsManager}
 						/>
 					}
 				/>
@@ -26,6 +43,9 @@ const Router: React.FC = () => {
 					path="/bookingForm"
 					element={<BookingForm name={name} />}
 				/>
+				{isManager == true && (
+					<Route path="/managersPage" element={<ManagersPage name={name}/>} />
+				)}
 				<Route path="*" element={<div>404 Page Not Found!</div>} />
 			</Routes>
 		</div>

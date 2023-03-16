@@ -12,21 +12,21 @@ interface PTODashboardProps {
 }
 
 const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
-	const [employeeData, setEmployeedata] = useState<employeeDataInterface>();
+	const [employeeData, setEmployeeData] = useState<employeeDataInterface>();
 
 	useEffect(() => {
 		const employeeDataWrap = async () => {
-			setEmployeedata(await getEmployeeData(name));
+			setEmployeeData(await getEmployeeData(name));
 		};
 		employeeDataWrap();
 	}, []);
 
-
 	const percentageRemaining = Math.round(
-		(Number(employeeData?.Remaining) / Number(employeeData?.Allowance)) * 100
+		(Number(employeeData?.Remaining) / Number(employeeData?.Allowance)) *
+			100
 	);
 
-	console.log(employeeData);
+	//console.log(employeeData);
 
 	return (
 		<div className="ptodashboard-wrapper">
@@ -76,7 +76,6 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 					of your PTO remaining
 				</h2>
 			</div>
-			
 		</div>
 	);
 };

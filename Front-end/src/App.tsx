@@ -7,18 +7,25 @@ import { BrowserRouter } from "react-router-dom";
 import Router from "./Router/Router";
 
 function App(): JSX.Element {
-  const allowance = "";
-  const approved = "";
-  const awaitingApproval = "";
+	const [isManager, setIsManager] = useState<boolean>(false);
+	const [name, setName] = useState<string>("");
+	const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Router />
-        <Sidebar />
-      </BrowserRouter>
-    </div>
-  );
+	return (
+		<div className="App">
+			<BrowserRouter>
+				<Router
+					isManager={isManager}
+					setIsManager={setIsManager}
+					name={name}
+					setName={setName}
+					loggedIn={loggedIn}
+					setLoggedIn={setLoggedIn}
+				/>
+				<Sidebar isManager={isManager} loggedIn={loggedIn} />
+			</BrowserRouter>
+		</div>
+	);
 }
 
 export default App;

@@ -5,19 +5,18 @@ import "react-datepicker/dist/react-datepicker.css";
 import { bookPTO } from "../utils";
 import "react-datepicker/dist/react-datepicker.css";
 import "./BookingForm.css";
-interface bookingProps{
-	name: string
+interface bookingProps {
+	name: string;
 }
 
-const BookingForm: React.FC<bookingProps> = ({name}) => {
+const BookingForm: React.FC<bookingProps> = ({ name }) => {
 	const navigate: NavigateFunction = useNavigate();
-
 
 	const todaysDate: Date = new Date();
 
-	console.log(todaysDate.toISOString().substring(0, 16));
+	//console.log(todaysDate.toISOString().substring(0, 16));
 
-	const mins:number = todaysDate.getMinutes();
+	const mins: number = todaysDate.getMinutes();
 
 	if (mins < 29) {
 		todaysDate.setMinutes(29);
@@ -28,7 +27,7 @@ const BookingForm: React.FC<bookingProps> = ({name}) => {
 		//todaysDate.setMilliseconds(0);
 	}
 
-	console.log(todaysDate);
+	//console.log(todaysDate);
 
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
 
@@ -96,7 +95,7 @@ const BookingForm: React.FC<bookingProps> = ({name}) => {
 					<div className="booking-formTitle">
 						<h1>Book PTO</h1>
 					</div>
-					
+
 					<div>
 						From:
 						<DatePicker

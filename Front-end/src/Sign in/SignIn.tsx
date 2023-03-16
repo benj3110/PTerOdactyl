@@ -6,6 +6,8 @@ interface loginInterface {
 	setName: React.Dispatch<React.SetStateAction<string>>;
 	loggedIn: boolean;
 	setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+	isManager: boolean;
+	setIsManager: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LoginPage: React.FC<loginInterface> = ({
@@ -13,6 +15,8 @@ const LoginPage: React.FC<loginInterface> = ({
 	setName,
 	loggedIn,
 	setLoggedIn,
+	isManager,
+	setIsManager,
 }) => {
 	const navigate: NavigateFunction = useNavigate();
 
@@ -23,14 +27,15 @@ const LoginPage: React.FC<loginInterface> = ({
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		try {
-			const nameCheck = await getEmployeeData(name);
-			if (nameCheck) {
+			const empCheck = await getEmployeeData(name);
+			if (empCheck) {
+				empCheck.Role == "Manager" &&
+					(setIsManager(true), navigate("/managersPage"));
 				setLoggedIn(true);
-				navigate("/");
+				empCheck.Role == "Employee" && navigate("/");
 			} else {
 				console.log("name doesn't match");
 			}
-			console.log(nameCheck);
 		} catch (error) {
 			console.error(error);
 		}
@@ -38,10 +43,9 @@ const LoginPage: React.FC<loginInterface> = ({
 
 	const handleClick: (event: any) => void = (event: any) => {
 		setLoggedIn(false);
+		setIsManager(false);
 		setName("");
-		console.log(loggedIn.valueOf);
 	};
-	console.log(loggedIn);
 
 	return (
 		<div>
