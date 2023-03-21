@@ -5,7 +5,7 @@
   height: 100%;
   width: 200px;
   background-color: #f4f4f4;
-  color: #333;
+  color: rgb(180, 176, 176);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,26 +39,26 @@ ul {
   margin: 0;
   padding: 0;
   margin-bottom: auto;
-  background-color: #333;
+  background-color: rgb(254, 254, 254);
 }
 
 li {
   margin: 10px 0;
-  background-color: #333;
+  background-color: rgb(249, 244, 244);
 }
 
 a {
   display: flex;
   align-items: center;
-  color: #f4f4f4;
-  background-color: #333;
+  color: #090808;
+  background-color: rgb(243, 240, 240);
   text-decoration: none;
   font-size: 18px;
   padding: 10px;
 }
 
 a:hover {
-  color: #f1c40f;
+  color: #ae2a05;
 }
 
 .icon {
@@ -66,5 +66,5 @@ a:hover {
   font-size: 20px;
 }
 .NavBar-Links {
-  background-color: #2c3e50;
+  background-color: #eff1f3;
 }
