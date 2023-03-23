@@ -61,6 +61,10 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 		};
 
 		calcHrs();
+		console.log(startDate);
+		console.log(endDate);
+		
+		
 
 	}, [startDate, endDate]);
 

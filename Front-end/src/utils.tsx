@@ -90,10 +90,11 @@ export const disapprovePTO: (disapproveSubmit: any) => Promise<any> = async (
 ) => {
 	let disapproveReq: AxiosResponse<any, any> | undefined;
 
+	
 	try {
 		disapproveReq = await Axios.put(
 			"http://localhost:8000/disapprovePTO",
-			disapproveReq
+			disapproveSubmit
 		);
 	} catch (error) {
 		console.log(error);

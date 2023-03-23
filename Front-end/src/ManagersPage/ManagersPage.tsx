@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { employeeDataInterface } from "../interfaces/employDataInterface";
-import { approvePTO, getEmployeeData } from "../utils";
+import { approvePTO, disapprovePTO, getEmployeeData } from "../utils";
 import "./ManagersPage.css";
 interface managersProps {
 	name: string;
@@ -48,10 +48,31 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 		};
 	}, [name]);
 
-	const handleApprove = async (toApproveDates:string, managedName:string|undefined) => {
-		const approveSubmit = {name: managedName,
-			toBePendingDates: toApproveDates}
-		await approvePTO(approveSubmit)
+	const handleApprove = async (
+		toApproveDates: string,
+		managedName: string | undefined
+	) => {
+		const approveSubmit = {
+			name: managedName,
+			toBePendingDates: toApproveDates,
+		};
+		await approvePTO(approveSubmit);
+	};
+
+	const handleDisapprove = async (
+		toApproveDates: string,
+		managedName: string | undefined
+	) => {
+		let [startDateStr, endDateStr] = toApproveDates.split(" # ");
+
+		const disapproveSubmit = {
+			name: managedName,
+			disapprovedDates: toApproveDates,
+			startDate: startDateStr,
+			endDate: endDateStr,
+		};
+		//console.log(disapproveSubmit);
+		await disapprovePTO(disapproveSubmit);
 	};
 
 	//console.log(managedEmpData);
@@ -86,10 +107,23 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 									{toApproveDates}
 									<button
 										onClick={() => {
-											handleApprove(toApproveDates, empData.Name);
+											handleApprove(
+												toApproveDates,
+												empData.Name
+											);
 										}}
 									>
 										Approve
+									</button>
+									<button
+										onClick={() => {
+											handleDisapprove(
+												toApproveDates,
+												empData.Name
+											);
+										}}
+									>
+										Disapprove
 									</button>
 								</div>
 							))}

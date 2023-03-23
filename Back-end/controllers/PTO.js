@@ -115,12 +115,13 @@ const approvedToPending = asyncHandler(async (req, res) => {
 });
 
 const disapprovedPTO = asyncHandler(async (req, res) => {
+	const employeeData = await Employee.findOne({ Name: req.body.name });
 	const deleteApproving = await Employee.updateOne(
 		{ Name: req.body.name },
 		{ $pull: { toApprove: req.body.disapprovedDates } }
 	);
 
-	const employeeData = await Employee.findOne({ Name: req.body.name });
+	//console.log(req.body.name);
 
 	const startDate = new Date(req.body.startDate);
 	const endDate = new Date(req.body.endDate);
@@ -159,8 +160,8 @@ const disapprovedPTO = asyncHandler(async (req, res) => {
 		}
 	}
 	let hoursPTO = minutesPTO / 60;
-	const newRemaining = Math.floor(employeeData.Remaining) + hoursPTO;
-	//console.log(newRemaining)
+	const newRemaining = Math.floor(employeeData?.Remaining) + hoursPTO;
+	//console.log(employeeData?.Remaining);
 	const addRemaining = await Employee.updateOne(
 		{ Name: req.body.name },
 		{
