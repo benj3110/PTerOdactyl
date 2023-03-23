@@ -11,6 +11,7 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 	const [managedEmpData, setManagedEmpData] = useState<
 		Array<employeeDataInterface>
 	>([]);
+	const [refresher, setRefresher] = useState<boolean>(true)
 
 	useEffect(() => {
 		let isMounted = true;
@@ -46,7 +47,7 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 		return () => {
 			isMounted = false;
 		};
-	}, [name]);
+	}, [name, refresher]);
 
 	const handleApprove = async (
 		toApproveDates: string,
@@ -57,6 +58,7 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 			toBePendingDates: toApproveDates,
 		};
 		await approvePTO(approveSubmit);
+		setRefresher(!refresher)
 	};
 
 	const handleDisapprove = async (
@@ -73,6 +75,7 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 		};
 		//console.log(disapproveSubmit);
 		await disapprovePTO(disapproveSubmit);
+		setRefresher(!refresher)
 	};
 
 	//console.log(managedEmpData);

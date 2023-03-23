@@ -15,6 +15,7 @@ interface PTOcalcData {
 }
 
 const BookingForm: React.FC<bookingProps> = ({ name }) => {
+	
 	const navigate: NavigateFunction = useNavigate();
 
 	const todaysDate: Date = new Date();
@@ -87,8 +88,8 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			startDate: startDate?.toISOString().substring(0, 16),
 			endDate: endDate?.toISOString().substring(0, 16),
 		};
-		console.log(startDate)
-		console.log(endDate)
+		console.log(startDate?.toLocaleString())
+		console.log(endDate?.toLocaleString())
 		await bookPTO(bookingSubmit);
 		navigate("/");
 	};

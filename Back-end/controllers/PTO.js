@@ -95,8 +95,8 @@ const inputPTO = asyncHandler(async (req, res, next) => {
 			Allowance: req.body.allowance,
 			CarriedOver: req.body.carriedOver,
 			Remaining: req.body.remaining,
-			PendingDates: "",
-			toApprove: "",
+			PendingDates: [],
+			toApprove: []
 		}
 	);
 	res.status(200).json("PTO data has been updated");

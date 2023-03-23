@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //import { useNavigate } from "react-router-dom";
 import { inputPTO } from "../utils";
 import "./InputBox.css";
 
 interface inputBoxProps {
 	name: string;
+	refresher: boolean;
+	setRefresher: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface inputPTOSubmitInterface {
 	name: string;
@@ -13,7 +15,7 @@ interface inputPTOSubmitInterface {
 	remaining: string;
 }
 
-const InputBox: React.FC<inputBoxProps> = ({ name }) => {
+const InputBox: React.FC<inputBoxProps> = ({ name, refresher, setRefresher }) => {
 	const [allowance, setAllowance] = useState<string>("");
 	const [carried, setCarried] = useState<string>("");
 	const [remaining, setRemaining] = useState<string>("");
@@ -26,6 +28,8 @@ const InputBox: React.FC<inputBoxProps> = ({ name }) => {
 			setRemaining(event.target.value);
 		}
 	};
+	
+	
 	const handleSubmit: () => Promise<void> = async () => {
 		const inputPTOSubmit: inputPTOSubmitInterface = {
 			name: name,
@@ -37,6 +41,7 @@ const InputBox: React.FC<inputBoxProps> = ({ name }) => {
 		setAllowance("");
 		setCarried("");
 		setRemaining("");
+		setRefresher(!refresher)
 		//navigate("/bookingForm")
 	};
 

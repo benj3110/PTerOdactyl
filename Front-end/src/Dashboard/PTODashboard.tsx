@@ -13,13 +13,14 @@ interface PTODashboardProps {
 
 const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 	const [employeeData, setEmployeeData] = useState<employeeDataInterface>();
+	const [refresher, setRefresher] = useState<boolean>(true);
 
 	useEffect(() => {
 		const employeeDataWrap = async () => {
 			setEmployeeData(await getEmployeeData(name));
 		};
 		employeeDataWrap();
-	}, []);
+	}, [refresher]);
 
 	const percentageRemaining = Math.round(
 		(Number(employeeData?.Remaining) / Number(employeeData?.Allowance)) *
@@ -37,24 +38,31 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 				let [startDateStr, endDateStr] = date.split(" # ");
 				let startDatedate = new Date(startDateStr);
 				let endDatedate = new Date(endDateStr);
-				startingPendingDates[index] = startDatedate.toLocaleString().substring(0,17);
-				endingPendingDates[index] = endDatedate.toLocaleString().substring(0,17);
+				startingPendingDates[index] = startDatedate
+					.toLocaleString()
+					.substring(0, 17);
+				endingPendingDates[index] = endDatedate
+					.toLocaleString()
+					.substring(0, 17);
 			}
 		}
 	);
+
 	employeeData?.toApprove?.forEach(
 		(date: string | null | undefined, index) => {
 			if (date) {
 				let [startDateStr, endDateStr] = date.split(" # ");
 				let startDatedate = new Date(startDateStr);
 				let endDatedate = new Date(endDateStr);
-				startingToBeApprovedDates[index] = startDatedate.toLocaleString().substring(0,17);
-				endingToBeApprovedDates[index] = endDatedate.toLocaleString().substring(0,17);
+				startingToBeApprovedDates[index] = startDatedate
+					.toLocaleString()
+					.substring(0, 17);
+				endingToBeApprovedDates[index] = endDatedate
+					.toLocaleString()
+					.substring(0, 17);
 			}
 		}
 	);
-
-
 
 	//console.log(employeeData);
 
@@ -62,28 +70,36 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 		<div className="ptodashboard-wrapper">
 			<h1>Paid Time Off Dashboard</h1>
 			<div className="InputBox_C">
-				<InputBox name={name} />
+				<InputBox
+					name={name}
+					refresher={refresher}
+					setRefresher={setRefresher}
+				/>
 			</div>
-			<div className="ptodashboard-container">
-				<div className="ptodashboard-box">
+			<div className="dashboard-numbers">
+				<div className="ptodashboard-box-numbers">
 					<h2>Current Allowance</h2>
 					<h3>{employeeData?.Allowance} hours</h3>
 				</div>
-				<div className="ptodashboard-box">
+				<div className="ptodashboard-box-numbers">
 					<h2>Carried Over From Previous Year</h2>
 					<h3>{employeeData?.CarriedOver} hours</h3>
 				</div>
-				<div className="ptodashboard-box">
+				<div className="ptodashboard-box-numbers">
 					<h2>Remaining Hours</h2>
 					<h3>{employeeData?.Remaining} hours</h3>
 				</div>
+			</div>
+			<div className="ptodashboard-container">
 				<div className="ptodashboard-box">
 					<h2>Pending PTO</h2>
 					<h3>
 						{startingPendingDates?.map(
 							(date: string | null | undefined, index) => (
 								<div>
-									<h3>{date} to {endingPendingDates[index]}</h3>
+									<h3>
+										{date} to {endingPendingDates[index]}
+									</h3>
 									<>......................</>
 								</div>
 							)
@@ -96,7 +112,10 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 						{startingToBeApprovedDates?.map(
 							(date: string | null | undefined, index) => (
 								<div>
-									<h3>{date} to {endingToBeApprovedDates[index]}</h3>
+									<h3>
+										{date} to{" "}
+										{endingToBeApprovedDates[index]}
+									</h3>
 									<>......................</>
 								</div>
 							)
