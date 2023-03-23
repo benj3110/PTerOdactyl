@@ -1,5 +1,5 @@
 import Axios, { AxiosResponse } from "axios";
-import bookingObject from "./interfaces/bookingInterfaces";
+// import bookingObject from "./interfaces/bookingInterfaces";
 // const url = require("url")
 
 export const getEmployeeData: (name: string) => Promise<any> = async (
@@ -39,7 +39,7 @@ export const inputPTO: (inputPTOSubmit: any) => Promise<any> = async (
 	inputPTOSubmit: any
 ) => {
 	let inputPTO: AxiosResponse<any, any> | undefined;
-  console.log(inputPTOSubmit)
+	console.log(inputPTOSubmit);
 
 	try {
 		inputPTO = await Axios.put(
@@ -49,4 +49,55 @@ export const inputPTO: (inputPTOSubmit: any) => Promise<any> = async (
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+export const calcPTO: (bookingSubmit: any) => Promise<any> = async (
+	bookingSubmit: any
+) => {
+	let bookingReq: AxiosResponse<any, any> | undefined;
+
+	try {
+		bookingReq = await Axios.put(
+			"http://localhost:8000/calcPTO",
+			bookingSubmit
+		);
+	} catch (error) {
+		console.log(error);
+	}
+
+	return bookingReq?.data;
+};
+
+export const approvePTO: (approveSubmit: any) => Promise<any> = async (
+	approveSubmit: any
+) => {
+	let approveReq: AxiosResponse<any, any> | undefined;
+
+	try {
+		approveReq = await Axios.put(
+			"http://localhost:8000/approvePTO",
+			approveSubmit
+		);
+	} catch (error) {
+		console.log(error);
+	}
+
+	return approveReq;
+};
+
+export const disapprovePTO: (disapproveSubmit: any) => Promise<any> = async (
+	disapproveSubmit: any
+) => {
+	let disapproveReq: AxiosResponse<any, any> | undefined;
+
+	try {
+		disapproveReq = await Axios.put(
+			"http://localhost:8000/disapprovePTO",
+			disapproveReq
+		);
+	} catch (error) {
+		console.log(error);
+	}
+
+	return disapproveReq;
 };

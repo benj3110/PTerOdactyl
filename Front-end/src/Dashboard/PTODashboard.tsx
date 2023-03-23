@@ -26,6 +26,36 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 			100
 	);
 
+	let startingPendingDates = [""];
+	let endingPendingDates = [""];
+	let startingToBeApprovedDates = [""];
+	let endingToBeApprovedDates = [""];
+
+	employeeData?.PendingDates?.forEach(
+		(date: string | null | undefined, index) => {
+			if (date) {
+				let [startDateStr, endDateStr] = date.split(" # ");
+				let startDatedate = new Date(startDateStr);
+				let endDatedate = new Date(endDateStr);
+				startingPendingDates[index] = startDatedate.toLocaleString().substring(0,17);
+				endingPendingDates[index] = endDatedate.toLocaleString().substring(0,17);
+			}
+		}
+	);
+	employeeData?.toApprove?.forEach(
+		(date: string | null | undefined, index) => {
+			if (date) {
+				let [startDateStr, endDateStr] = date.split(" # ");
+				let startDatedate = new Date(startDateStr);
+				let endDatedate = new Date(endDateStr);
+				startingToBeApprovedDates[index] = startDatedate.toLocaleString().substring(0,17);
+				endingToBeApprovedDates[index] = endDatedate.toLocaleString().substring(0,17);
+			}
+		}
+	);
+
+
+
 	//console.log(employeeData);
 
 	return (
@@ -44,18 +74,34 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 					<h3>{employeeData?.CarriedOver} hours</h3>
 				</div>
 				<div className="ptodashboard-box">
-					<h2>Pending Dates</h2>
+					<h2>Remaining Hours</h2>
+					<h3>{employeeData?.Remaining} hours</h3>
+				</div>
+				<div className="ptodashboard-box">
+					<h2>Pending PTO</h2>
 					<h3>
-						{employeeData?.PendingDates?.map(
-							(date: string | null | undefined) => (
-								<h3>{date}</h3>
+						{startingPendingDates?.map(
+							(date: string | null | undefined, index) => (
+								<div>
+									<h3>{date} to {endingPendingDates[index]}</h3>
+									<>......................</>
+								</div>
 							)
 						)}
 					</h3>
 				</div>
 				<div className="ptodashboard-box">
-					<h2>Remaining Hours</h2>
-					<h3>{employeeData?.Remaining} hours</h3>
+					<h2>To Be Approved PTO</h2>
+					<h3>
+						{startingToBeApprovedDates?.map(
+							(date: string | null | undefined, index) => (
+								<div>
+									<h3>{date} to {endingToBeApprovedDates[index]}</h3>
+									<>......................</>
+								</div>
+							)
+						)}
+					</h3>
 				</div>
 			</div>
 			<div className="ptodashboard-progress">

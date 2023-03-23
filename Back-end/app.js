@@ -35,3 +35,12 @@ app.use("/", requestPTORoute);
 
 const inputPTORoute = require("./routes/inputPTO");
 app.use("/", inputPTORoute);
+
+const calcPTO = require("./routes/calcPTO");
+app.use("/", calcPTO);
+
+const approvePTO = require("./routes/approvePTO");
+app.use("/", approvePTO);
+
+const disapprovePTO = require("./routes/disapprovePTO");
+app.use("/", disapprovePTO);

@@ -1,0 +1,16 @@
+.managingData_C{
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin: auto;
+    max-width: 1000px;
+    text-align: center;
+}
+.managingDataEach_C{
+    width: 30%;
+    background-color: lightgray;
+    padding: 10px;
+    text-align: center;
+    margin-left: 5%;
+
+}

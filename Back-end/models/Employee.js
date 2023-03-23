@@ -11,6 +11,7 @@ const EmployeeSchema = new mongoose.Schema({
 	UsedHours: { type: String, require: true },
 	CarriedOver: { type: String, required: false },
 	PendingDates: [{ type: String, required: false }],
+	toApprove: [{ type: String, required: false }],
 });
 
 module.exports = mongoose.model("employees", EmployeeSchema);

@@ -8,5 +8,6 @@ export interface employeeDataInterface {
 	CarriedOver?: string,
 	PendingDates?: string[],
 	ManagingNames?: string[],
-	Manager?: string
+	Manager?: string,
+	toApprove?: string[],
 }

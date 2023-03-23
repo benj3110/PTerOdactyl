@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-import { bookPTO } from "../utils";
+import { bookPTO, calcPTO } from "../utils";
 import "react-datepicker/dist/react-datepicker.css";
 import "./BookingForm.css";
 interface bookingProps {
 	name: string;
+}
+interface PTOcalcData {
+	newCarried: string;
+	newRemaining: number;
+	PTOHours: number;
 }
 
 const BookingForm: React.FC<bookingProps> = ({ name }) => {
 	const navigate: NavigateFunction = useNavigate();
 
 	const todaysDate: Date = new Date();
+	const [newRemaining, setNewRemaining] = useState<PTOcalcData>();
 
 	//console.log(todaysDate.toISOString().substring(0, 16));
 
@@ -33,17 +39,43 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 
 	const [endDate, setEndDate] = useState<Date | undefined>();
 
-	console.log(name);
+	useEffect(() => {
+		const calcHrs = async () => {
+			const bookingSubmit: {
+				name: string;
+				PendingDates: string;
+				startDate: string;
+				endDate: string | undefined;
+			} = {
+				name: name,
+				PendingDates: `${startDate
+					?.toISOString()
+					.substring(0, 16)} # ${endDate
+					?.toISOString()
+					.substring(0, 16)}`,
+				startDate: startDate?.toISOString().substring(0, 16),
+				endDate: endDate?.toISOString().substring(0, 16),
+			};
+
+			setNewRemaining(await calcPTO(bookingSubmit));
+		};
+
+		calcHrs();
+
+	}, [startDate, endDate]);
+
+	// console.log(newRemaining)
+	// console.log(name);
 
 	const handleSubmit: () => void = async () => {
 		const bookingSubmit: {
 			name: string;
-			PendingDates: string;
+			toApprove: string;
 			startDate: string;
 			endDate: string | undefined;
 		} = {
 			name: name,
-			PendingDates: `${startDate
+			toApprove: `${startDate
 				?.toISOString()
 				.substring(0, 16)} # ${endDate
 				?.toISOString()
@@ -51,7 +83,8 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			startDate: startDate?.toISOString().substring(0, 16),
 			endDate: endDate?.toISOString().substring(0, 16),
 		};
-
+		console.log(startDate)
+		console.log(endDate)
 		await bookPTO(bookingSubmit);
 		navigate("/");
 	};
@@ -134,6 +167,9 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 					</button>
 				</div>
 			</div>
+			<div className="PTOdatainBooking">New remaining hours: {newRemaining?.newRemaining}</div>
+			<div className="PTOdatainBooking">New carried over hours: {newRemaining?.newCarried}</div>
+			<div className="PTOdatainBooking">Hours of PTO you're booking: {newRemaining?.PTOHours}</div>
 		</div>
 	);
 };

@@ -1,30 +1,102 @@
 import { useState, useEffect } from "react";
 import { employeeDataInterface } from "../interfaces/employDataInterface";
-import { getEmployeeData } from "../utils";
+import { approvePTO, getEmployeeData } from "../utils";
+import "./ManagersPage.css";
 interface managersProps {
 	name: string;
 }
 
 const ManagersPage: React.FC<managersProps> = ({ name }) => {
 	const [employeeData, setEmployeeData] = useState<employeeDataInterface>();
-    const [managedEmpData, setManagedEmpData] = useState<[employeeDataInterface]>()
+	const [managedEmpData, setManagedEmpData] = useState<
+		Array<employeeDataInterface>
+	>([]);
 
 	useEffect(() => {
+		let isMounted = true;
+		console.log("useEffect");
+
 		const employeeDataWrap = async () => {
-			setEmployeeData(await getEmployeeData(name));
-            if ()
-            {setManagedEmpData(await getEmployeeData(employeeData?.ManagingNames[0]))}
+			if (isMounted) {
+				const empData: employeeDataInterface = await getEmployeeData(
+					name
+				);
+				setEmployeeData(empData);
+
+				if (empData?.ManagingNames) {
+					console.log(`running if`);
+					const tempData: Array<employeeDataInterface> =
+						await Promise.all(
+							empData.ManagingNames.map(
+								async (empName: string) => {
+									const manEmpData: employeeDataInterface =
+										await getEmployeeData(empName);
+									return manEmpData;
+								}
+							)
+						);
+					console.log(tempData);
+					setManagedEmpData(tempData);
+				}
+			}
 		};
+
 		employeeDataWrap();
-	}, []);
+
+		return () => {
+			isMounted = false;
+		};
+	}, [name]);
+
+	const handleApprove = async (toApproveDates:string, managedName:string|undefined) => {
+		const approveSubmit = {name: managedName,
+			toBePendingDates: toApproveDates}
+		await approvePTO(approveSubmit)
+	};
+
+	//console.log(managedEmpData);
+	//console.log(managedEmpData?.length);
+	// console.log(employeeData?.ManagingNames?.length);
+
+	// console.log(
+	// 	JSON.stringify(manNames)
+	// );
 
 	return (
 		<div>
 			<h2>Currently Managing</h2>
-			<div className="ManagingEmployees_C">
-                {employeeData?.ManagingNames?.map(emp => <h3>{emp}</h3>)}
-
-            </div>
+			<div className="managingData_C">
+				{managedEmpData?.map((empData) => (
+					// empData.toApprove?.map((date) => <div>Most TO approve{date}</div>),
+					<div className="managingDataEach_C">
+						<h3 key={empData.Name}>{empData.Name}</h3>
+						<h4 key={empData.Remaining}>
+							{" "}
+							Remaining hours: {empData.Remaining}
+						</h4>
+						<h4 key={empData.Allowance}>
+							{" "}
+							Pending Dates: {empData.PendingDates}
+						</h4>
+						<h4 key={empData.CarriedOver}>
+							{" "}
+							To Approve Dates:
+							{empData.toApprove?.map((toApproveDates) => (
+								<div key={toApproveDates}>
+									{toApproveDates}
+									<button
+										onClick={() => {
+											handleApprove(toApproveDates, empData.Name);
+										}}
+									>
+										Approve
+									</button>
+								</div>
+							))}
+						</h4>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 };

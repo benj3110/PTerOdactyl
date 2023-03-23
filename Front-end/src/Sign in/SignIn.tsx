@@ -21,6 +21,7 @@ const LoginPage: React.FC<loginInterface> = ({
 	const navigate: NavigateFunction = useNavigate();
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault();
 		setName(event.target.value);
 	};
 

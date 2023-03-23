@@ -8,4 +8,11 @@ const getEmployeeData = asyncHandler(async (req, res) => {
   res.status(200).json(employeeData);
 });
 
-module.exports = { getEmployeeData };
+// const getManagedEmpData = asyncHandler(async (req, res) => {
+//   const names = req.params.name;
+//   //console.log(name);
+//   const employeeData = await Employee.findOne({ Name: name });
+//   res.status(200).json(employeeData);
+// });
+
+module.exports = { getEmployeeData};
