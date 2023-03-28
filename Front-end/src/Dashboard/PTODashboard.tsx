@@ -36,14 +36,8 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 		(date: string | null | undefined, index) => {
 			if (date) {
 				let [startDateStr, endDateStr] = date.split(" # ");
-				let startDatedate = new Date(startDateStr);
-				let endDatedate = new Date(endDateStr);
-				startingPendingDates[index] = startDatedate
-					.toLocaleString()
-					.substring(0, 17);
-				endingPendingDates[index] = endDatedate
-					.toLocaleString()
-					.substring(0, 17);
+				startingPendingDates[index] = startDateStr
+				endingPendingDates[index] = endDateStr
 			}
 		}
 	);
@@ -52,14 +46,8 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 		(date: string | null | undefined, index) => {
 			if (date) {
 				let [startDateStr, endDateStr] = date.split(" # ");
-				let startDatedate = new Date(startDateStr);
-				let endDatedate = new Date(endDateStr);
-				startingToBeApprovedDates[index] = startDatedate
-					.toLocaleString()
-					.substring(0, 17);
-				endingToBeApprovedDates[index] = endDatedate
-					.toLocaleString()
-					.substring(0, 17);
+				startingToBeApprovedDates[index] = startDateStr
+				endingToBeApprovedDates[index] = endDateStr
 			}
 		}
 	);

@@ -15,7 +15,6 @@ interface PTOcalcData {
 }
 
 const BookingForm: React.FC<bookingProps> = ({ name }) => {
-	
 	const navigate: NavigateFunction = useNavigate();
 
 	const todaysDate: Date = new Date();
@@ -29,47 +28,46 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 		todaysDate.setMinutes(29);
 	} else {
 		todaysDate.setMinutes(59);
-
-		//todaysDate.setHours(todaysDate.getHours() + 1);
-		//todaysDate.setMilliseconds(0);
 	}
 
 	//console.log(todaysDate);
 
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
 
-	const [endDate, setEndDate] = useState<Date | undefined>();
+	const [endDate, setEndDate] = useState<Date | undefined>(todaysDate);
 
 	useEffect(() => {
 		const calcHrs = async () => {
 			const bookingSubmit: {
 				name: string;
-				PendingDates: string;
 				startDate: string;
 				endDate: string | undefined;
 			} = {
 				name: name,
-				PendingDates: `${startDate
-					?.toISOString()
-					.substring(0, 16)} # ${endDate
-					?.toISOString()
-					.substring(0, 16)}`,
-				startDate: startDate?.toISOString().substring(0, 16),
-				endDate: endDate?.toISOString().substring(0, 16),
+				startDate: startDate?.toLocaleString(),
+				endDate: endDate?.toLocaleString(),
 			};
 
 			setNewRemaining(await calcPTO(bookingSubmit));
 		};
 
-		calcHrs();
-		console.log(startDate);
-		console.log(endDate);
-		
+		// const convertedStartDay = new Date(
+		// 	startDate.setTime(
+		// 		(startDate.getTime() - startDate.getTimezoneOffset() * 60 * 1000)
+		// 	)
+		// ).toLocaleString();
+
+		// console.log(convertedStartDay);
 		
 
+
+
+		calcHrs();
+		// console.log(startDate);
+		// console.log(endDate);
 	}, [startDate, endDate]);
 
-	// console.log(newRemaining)
+
 	// console.log(name);
 
 	const handleSubmit: () => void = async () => {
@@ -80,16 +78,11 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			endDate: string | undefined;
 		} = {
 			name: name,
-			toApprove: `${startDate
-				?.toISOString()
-				.substring(0, 16)} # ${endDate
-				?.toISOString()
-				.substring(0, 16)}`,
-			startDate: startDate?.toISOString().substring(0, 16),
-			endDate: endDate?.toISOString().substring(0, 16),
+			toApprove: `${startDate?.toLocaleString()} # ${endDate?.toLocaleString()}`,
+			startDate: startDate?.toLocaleString(),
+			endDate: endDate?.toLocaleString(),
 		};
-		console.log(startDate?.toLocaleString())
-		console.log(endDate?.toLocaleString())
+		
 		await bookPTO(bookingSubmit);
 		navigate("/");
 	};
@@ -172,9 +165,15 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 					</button>
 				</div>
 			</div>
-			<div className="PTOdatainBooking">New remaining hours: {newRemaining?.newRemaining}</div>
-			<div className="PTOdatainBooking">New carried over hours: {newRemaining?.newCarried}</div>
-			<div className="PTOdatainBooking">Hours of PTO you're booking: {newRemaining?.PTOHours}</div>
+			<div className="PTOdatainBooking">
+				New remaining hours: {newRemaining?.newRemaining}
+			</div>
+			<div className="PTOdatainBooking">
+				New carried over hours: {newRemaining?.newCarried}
+			</div>
+			<div className="PTOdatainBooking">
+				Hours of PTO you're booking: {newRemaining?.PTOHours}
+			</div>
 		</div>
 	);
 };

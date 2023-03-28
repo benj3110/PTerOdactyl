@@ -1,10 +1,9 @@
-import expressAsyncHandler from "express-async-handler";
+const asyncHandler = require("express-async-handler");
 
 //Helper calc functions
-export const calcPTO = expressAsyncHandler(async() => {
-
-    const startDate = new Date(startDatePassed);
-	const endDate = new Date(endDatePassed);
+const calcPTO = asyncHandler(async (startDate, endDate) => {
+	// console.log(startDate);
+	// console.log(endDate);
 	let minutesPTO = 0;
 	let current = startDate;
 
@@ -38,16 +37,17 @@ export const calcPTO = expressAsyncHandler(async() => {
 			default:
 				console.log("days err");
 		}
-		//if (current.getDay = (0||6)){
-		// 	current.setDate(current.getDay + 1)
-		// } else {
-		// minutesPTO++;
-		// current.setMinutes(current.getMinutes() + 1);
-		// }
 	}
-	let hoursPTO = minutesPTO / 60;//return
-	let counter = 0;
-	const remaining = employeeData.Remaining - hoursPTO;//return
-	let newCarried = Math.floor(employeeData?.CarriedOver);//return
-	console.log(newCarried);
-})
+	let hoursPTO = minutesPTO / 60;
+	return hoursPTO;
+});
+
+const convertTime = asyncHandler(async (date) => {
+	const convertedTime = new Date(
+		date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000)
+	);
+
+	return convertedTime;
+});
+
+module.exports = { calcPTO, convertTime };

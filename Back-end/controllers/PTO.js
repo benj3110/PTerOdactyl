@@ -1,68 +1,36 @@
 const Employee = require("../models/employee");
 const asyncHandler = require("express-async-handler"); //used instead of try catch blocks and handling errors, wrapping the async func
+const helperFunc = require("./helperFunctions");
+const moment = require("moment");
 
 const requestPTO = asyncHandler(async (req, res, next) => {
 	const checkPTO = await Employee.find({
 		Name: req.body.name,
 		PendingDates: req.body.PendingDates,
 	});
+	//todo actually do a validation this doesn't do anything
+
+	const startDatePreMod = moment(
+		req.body.startDate,
+		"DD/MM/YYYY, HH:mm:ss"
+	).toDate();
+	const endDatePreMod = moment(
+		req.body.endDate,
+		"DD/MM/YYYY, HH:mm:ss"
+	).toDate();
+
+	const startDate = await helperFunc.convertTime(startDatePreMod);
+	const endDate = await helperFunc.convertTime(endDatePreMod);
+
 	const employeeData = await Employee.findOne({ Name: req.body.name });
+	const hoursPTO = await helperFunc.calcPTO(startDate, endDate);
 
-	const startDate = new Date(req.body.startDate);
-	const endDate = new Date(req.body.endDate);
-	console.log(req.body.startDate);
-	console.log(req.body.endDate);
-
-	let minutesPTO = 0;
-	let current = startDate;
-
-	while (current < endDate) {
-		switch (current.getDay()) {
-			case 0:
-				current.setMinutes(current.getMinutes() + 1440);
-				break;
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-				if (current.getHours() < 17) {
-					minutesPTO++;
-					current.setMinutes(current.getMinutes() + 1);
-				} else {
-					current.setMinutes(current.getMinutes() + 960);
-				}
-				break;
-			case 5:
-				if (current.getHours() < 14) {
-					minutesPTO++;
-					current.setMinutes(current.getMinutes() + 1);
-				} else {
-					current.setMinutes(current.getMinutes() + 660);
-				}
-				break;
-			case 6:
-				current.setMinutes(current.getMinutes() + 1440);
-				break;
-			default:
-				console.log("days err");
-		}
-		//if (current.getDay = (0||6)){
-		// 	current.setDate(current.getDay + 1)
-		// } else {
-		// minutesPTO++;
-		// current.setMinutes(current.getMinutes() + 1);
-		// }
-	}
-	let hoursPTO = minutesPTO / 60;
 	let counter = 0;
 	const remaining = employeeData.Remaining - hoursPTO;
-	let newCarried = Math.floor(employeeData?.CarriedOver);
-	//console.log(newCarried);
-
+	let newCarried = Number(employeeData?.CarriedOver);
 	while (newCarried > 0 && counter < hoursPTO) {
 		newCarried -= 0.5;
 		counter += 0.5;
-		//console.log(newCarried);
 	}
 
 	if (
@@ -96,7 +64,7 @@ const inputPTO = asyncHandler(async (req, res, next) => {
 			CarriedOver: req.body.carriedOver,
 			Remaining: req.body.remaining,
 			PendingDates: [],
-			toApprove: []
+			toApprove: [],
 		}
 	);
 	res.status(200).json("PTO data has been updated");
@@ -121,47 +89,20 @@ const disapprovedPTO = asyncHandler(async (req, res) => {
 		{ $pull: { toApprove: req.body.disapprovedDates } }
 	);
 
-	//console.log(req.body.name);
+	const startDatePreMod = moment(
+		req.body.startDate,
+		"DD/MM/YYYY, HH:mm:ss"
+	).toDate();
+	const endDatePreMod = moment(
+		req.body.endDate,
+		"DD/MM/YYYY, HH:mm:ss"
+	).toDate();
 
-	const startDate = new Date(req.body.startDate);
-	const endDate = new Date(req.body.endDate);
-	let minutesPTO = 0;
-	let current = startDate;
-
-	while (current < endDate) {
-		switch (current.getDay()) {
-			case 0:
-				current.setMinutes(current.getMinutes() + 1440);
-				break;
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-				if (current.getHours() < 17) {
-					minutesPTO++;
-					current.setMinutes(current.getMinutes() + 1);
-				} else {
-					current.setMinutes(current.getMinutes() + 960);
-				}
-				break;
-			case 5:
-				if (current.getHours() < 14) {
-					minutesPTO++;
-					current.setMinutes(current.getMinutes() + 1);
-				} else {
-					current.setMinutes(current.getMinutes() + 660);
-				}
-				break;
-			case 6:
-				current.setMinutes(current.getMinutes() + 1440);
-				break;
-			default:
-				console.log("days err");
-		}
-	}
-	let hoursPTO = minutesPTO / 60;
-	const newRemaining = Math.floor(employeeData?.Remaining) + hoursPTO;
-	//console.log(employeeData?.Remaining);
+	const startDate = await helperFunc.convertTime(startDatePreMod);
+	const endDate = await helperFunc.convertTime(endDatePreMod);
+	const hoursPTO = await helperFunc.calcPTO(startDate, endDate);
+	//console.log(Number(employeeData?.Remaining));
+	const newRemaining = Number(employeeData?.Remaining) + hoursPTO;
 	const addRemaining = await Employee.updateOne(
 		{ Name: req.body.name },
 		{
@@ -176,48 +117,22 @@ const disapprovedPTO = asyncHandler(async (req, res) => {
 const calcPTOData = asyncHandler(async (req, res) => {
 	const employeeData = await Employee.findOne({ Name: req.body.name });
 
-	const startDate = new Date(req.body.startDate);
-	const endDate = new Date(req.body.endDate);
-	let minutesPTO = 0;
-	let current = startDate;
+	const startDatePreMod = moment(
+		req.body.startDate,
+		"DD/MM/YYYY, HH:mm:ss"
+	).toDate();
+	const endDatePreMod = moment(
+		req.body.endDate,
+		"DD/MM/YYYY, HH:mm:ss"
+	).toDate();
 
-	while (current < endDate) {
-		switch (current.getDay()) {
-			case 0:
-				current.setMinutes(current.getMinutes() + 1440);
-				break;
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-				if (current.getHours() < 17) {
-					minutesPTO++;
-					current.setMinutes(current.getMinutes() + 1);
-				} else {
-					current.setMinutes(current.getMinutes() + 960);
-				}
-				break;
-			case 5:
-				if (current.getHours() < 14) {
-					minutesPTO++;
-					current.setMinutes(current.getMinutes() + 1);
-				} else {
-					current.setMinutes(current.getMinutes() + 660);
-				}
-				break;
-			case 6:
-				current.setMinutes(current.getMinutes() + 1440);
-				break;
-			default:
-				console.log("days err");
-		}
-	}
+	const startDate = await helperFunc.convertTime(startDatePreMod);
+	const endDate = await helperFunc.convertTime(endDatePreMod);
 
-	let hoursPTO = minutesPTO / 60;
+	const hoursPTO = await helperFunc.calcPTO(startDate, endDate);
 	let counter = 0;
-	const remaining = employeeData.Remaining - hoursPTO;
+	const remaining = employeeData?.Remaining - hoursPTO;
 	let newCarried = Number(employeeData?.CarriedOver);
-	//console.log(newCarried);
 
 	while (newCarried > 0 && counter < hoursPTO) {
 		newCarried -= 0.5;

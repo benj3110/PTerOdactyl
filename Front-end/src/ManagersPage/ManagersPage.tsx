@@ -78,13 +78,9 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 		setRefresher(!refresher)
 	};
 
-	//console.log(managedEmpData);
-	//console.log(managedEmpData?.length);
-	// console.log(employeeData?.ManagingNames?.length);
+	let startingPendingDates = [""];
+	let endingPendingDates = [""];
 
-	// console.log(
-	// 	JSON.stringify(manNames)
-	// );
 
 	return (
 		<div>
@@ -100,7 +96,7 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 						</h4>
 						<h4 key={empData.Allowance}>
 							{" "}
-							Pending Dates: {empData.PendingDates}
+							Pending Dates: {empData.PendingDates?.map(dates => (<div>{dates}</div>))}
 						</h4>
 						<h4 key={empData.CarriedOver}>
 							{" "}
