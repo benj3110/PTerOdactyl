@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 interface sidebarProps {
 	isManager: boolean;
 	loggedIn: boolean;
+	name: string;
 }
 
-const Sidebar: React.FC<sidebarProps> = ({ isManager, loggedIn }) => {
+const Sidebar: React.FC<sidebarProps> = ({ isManager, loggedIn, name }) => {
 	return (
 		<div className="sidebar">
 			<div className="logo">
@@ -29,7 +30,9 @@ const Sidebar: React.FC<sidebarProps> = ({ isManager, loggedIn }) => {
 					</li>
 					<li>
 						{loggedIn == true ? (
-							<Link to="/signIn"> Sign Out</Link>
+							<div>
+								<Link to="/signIn"> Sign Out {name}</Link>
+							</div>
 						) : (
 							<Link to="/signIn"> Sign In</Link>
 						)}

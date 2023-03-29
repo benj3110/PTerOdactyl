@@ -30,11 +30,11 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 		todaysDate.setMinutes(59);
 	}
 
-	//console.log(todaysDate);
-
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
 
 	const [endDate, setEndDate] = useState<Date | undefined>(todaysDate);
+
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
 	useEffect(() => {
 		const calcHrs = async () => {
@@ -49,24 +49,19 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			};
 
 			setNewRemaining(await calcPTO(bookingSubmit));
+			if (newRemaining?.newRemaining && newRemaining?.newRemaining <= 0) {
+				setIsButtonDisabled(true);
+			} else {
+				setIsButtonDisabled(false);
+			}
 		};
 
-		// const convertedStartDay = new Date(
-		// 	startDate.setTime(
-		// 		(startDate.getTime() - startDate.getTimezoneOffset() * 60 * 1000)
-		// 	)
-		// ).toLocaleString();
+		calcHrs();
 
-		// console.log(convertedStartDay);
 		
 
-
-
-		calcHrs();
-		// console.log(startDate);
-		// console.log(endDate);
+		console.log(isButtonDisabled);
 	}, [startDate, endDate]);
-
 
 	// console.log(name);
 
@@ -82,7 +77,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			startDate: startDate?.toLocaleString(),
 			endDate: endDate?.toLocaleString(),
 		};
-		
+
 		await bookPTO(bookingSubmit);
 		navigate("/");
 	};
@@ -135,8 +130,6 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 							showTimeSelect
 							minDate={todaysDate}
 							filterTime={filterPassedTime}
-							//minTime={setHours(setMinutes(new Date(), 0), 17)}
-							//maxTime={setHours(setMinutes(new Date(), 30), 20)}
 							dateFormat="do MMMM Y HH:mm"
 							fixedHeight
 						/>
@@ -156,9 +149,11 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 					</div>
 					<button
 						className="bookPTOButton"
+						type="button"
 						onClick={() => {
 							handleSubmit();
 						}}
+						disabled={isButtonDisabled}
 					>
 						{" "}
 						Submit{" "}

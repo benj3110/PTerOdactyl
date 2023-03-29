@@ -39,3 +39,8 @@
     box-shadow: none;
     color: #2c5777;
   }
+  .bookPTOButton:disabled {
+    background-color: #e4a0a0;
+    box-shadow: none;
+    color: #2c5777;
+  }

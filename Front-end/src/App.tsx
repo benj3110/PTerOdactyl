@@ -22,7 +22,7 @@ function App(): JSX.Element {
 					loggedIn={loggedIn}
 					setLoggedIn={setLoggedIn}
 				/>
-				<Sidebar isManager={isManager} loggedIn={loggedIn} />
+				<Sidebar isManager={isManager} loggedIn={loggedIn} name={name} />
 			</BrowserRouter>
 		</div>
 	);
