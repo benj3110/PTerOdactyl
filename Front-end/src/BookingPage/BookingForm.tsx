@@ -49,6 +49,8 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			};
 
 			setNewRemaining(await calcPTO(bookingSubmit));
+
+			
 			if (newRemaining?.newRemaining && newRemaining?.newRemaining <= 0) {
 				setIsButtonDisabled(true);
 			} else {
@@ -57,8 +59,6 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 		};
 
 		calcHrs();
-
-		
 
 		console.log(isButtonDisabled);
 	}, [startDate, endDate]);
