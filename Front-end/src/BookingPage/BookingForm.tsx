@@ -32,7 +32,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
 
-	const [endDate, setEndDate] = useState<Date | undefined>(todaysDate);
+	const [endDate, setEndDate] = useState<Date | undefined>();
 
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
@@ -48,10 +48,11 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 				endDate: endDate?.toLocaleString(),
 			};
 
-			setNewRemaining(await calcPTO(bookingSubmit));
+			const calcdPTO = await calcPTO(bookingSubmit);
 
-			
-			if (newRemaining?.newRemaining && newRemaining?.newRemaining <= 0) {
+			setNewRemaining(calcdPTO);
+
+			if (calcdPTO?.newRemaining && calcdPTO?.newRemaining <= 0) {
 				setIsButtonDisabled(true);
 			} else {
 				setIsButtonDisabled(false);
@@ -111,6 +112,10 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 		return false;
 	};
 
+	if (isButtonDisabled == true) {
+
+	}
+
 	return (
 		<div className="box">
 			<div className="hero">
@@ -146,6 +151,10 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 							dateFormat="do MMMM Y HH:mm"
 							fixedHeight
 						/>
+					</div>
+					<div>
+
+					{isButtonDisabled ==true && <>Cannot Submit as you don't have enough remaining PTO</>}
 					</div>
 					<button
 						className="bookPTOButton"
