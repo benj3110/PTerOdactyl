@@ -20,17 +20,20 @@ const PTOCalendar: React.FC = () => {
   }, []);
 
   // Map PTO data to event format expected by FullCalendar
-  const events: EventInput[] = ptoData.map((pto) => ({
-    title: pto.reason,
-    start: pto.startDate,
-    end: pto.endDate,
-  }));
+  // const events: EventInput[] = ptoData.map((pto) => ({
+  //   title: pto.reason,
+  //   start: pto.startDate,
+  //   end: pto.endDate,
+  // }));
 
   return (
     <FullCalendar
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
-      events={events}
+      events={[
+        { title: "event 1", date: "2023-31-03" },
+        { title: "event 2", date: "2023-31-03" },
+      ]}
     />
   );
 };
