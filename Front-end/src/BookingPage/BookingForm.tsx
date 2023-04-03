@@ -18,6 +18,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 
 	const todaysDate: Date = new Date();
 	const [newRemaining, setNewRemaining] = useState<PTOcalcData>();
+	const [buttonErr, setButtonErr] = useState<string>("")
 
 	//console.log(todaysDate.toISOString().substring(0, 16));
 
@@ -48,19 +49,36 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			};
 
 			const calcdPTO = await calcPTO(bookingSubmit);
-
+			const datesValid = await checkDatesValid();
 			setNewRemaining(calcdPTO);
 
 			if (calcdPTO?.newRemaining && calcdPTO?.newRemaining <= 0) {
 				setIsButtonDisabled(true);
-			} else {
-				setIsButtonDisabled(false);
+				setButtonErr("Not enough remaining PTO")
+			} else if(datesValid==false ){
+				setIsButtonDisabled(true);
+				setButtonErr("Dates are not valid")
 			}
+			else {
+				setIsButtonDisabled(false);
+				setButtonErr("")
+			}
+		};
+
+		const checkDatesValid = async () => {
+			if (endDate && endDate.getTime() < startDate.getTime()) {
+				return false;
+			} else if (endDate == undefined) {
+				return false;
+			} else {
+				return true;
+			}
+			
 		};
 
 		calcHrs();
 
-		console.log(isButtonDisabled);
+		console.log(checkDatesValid());
 	}, [startDate, endDate]);
 
 	// console.log(name);
@@ -152,8 +170,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 					<div>
 						{isButtonDisabled == true && (
 							<>
-								Cannot Submit as you don't have enough remaining
-								PTO
+								Cannot Submit: {buttonErr}
 							</>
 						)}
 					</div>
