@@ -3,7 +3,6 @@ import DatePicker from "react-datepicker";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { bookPTO, calcPTO } from "../utils";
-import "react-datepicker/dist/react-datepicker.css";
 import "./BookingForm.css";
 interface bookingProps {
 	name: string;
@@ -113,7 +112,6 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 	};
 
 	if (isButtonDisabled == true) {
-
 	}
 
 	return (
@@ -130,6 +128,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 					<div>
 						From:
 						<DatePicker
+							className="datePicker"
 							selected={startDate}
 							onChange={(date: Date) => setStartDate(date)}
 							showTimeSelect
@@ -142,6 +141,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 					<div>
 						To:
 						<DatePicker
+							className="datePicker"
 							selected={endDate}
 							onChange={(date: Date) => setEndDate(date)}
 							showTimeSelect
@@ -153,8 +153,12 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 						/>
 					</div>
 					<div>
-
-					{isButtonDisabled ==true && <>Cannot Submit as you don't have enough remaining PTO</>}
+						{isButtonDisabled == true && (
+							<>
+								Cannot Submit as you don't have enough remaining
+								PTO
+							</>
+						)}
 					</div>
 					<button
 						className="bookPTOButton"

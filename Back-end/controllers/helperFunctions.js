@@ -1,4 +1,6 @@
 const asyncHandler = require("express-async-handler");
+const moment = require("moment");
+const Dates = require("../models/Dates");
 
 //Helper calc functions
 const calcPTO = asyncHandler(async (startDate, endDate) => {
@@ -6,8 +8,21 @@ const calcPTO = asyncHandler(async (startDate, endDate) => {
 	// console.log(endDate);
 	let minutesPTO = 0;
 	let current = startDate;
+	const autoHolidays = await Dates.findOne({ Role: "Admin" });
 
 	while (current < endDate) {
+		let isHoliday = false;
+		for (let i = 0; i < autoHolidays.BankHolidays.length; i++) {
+			if (current.toDateString() == autoHolidays.BankHolidays[i]) {
+				isHoliday = true;
+				current.setMinutes(current.getMinutes() + 1440);
+				break;
+			}
+		}
+		if (isHoliday) {
+			continue;
+		}
+
 		switch (current.getDay()) {
 			case 0:
 				current.setMinutes(current.getMinutes() + 1440);
@@ -16,7 +31,7 @@ const calcPTO = asyncHandler(async (startDate, endDate) => {
 			case 2:
 			case 3:
 			case 4:
-				if (current.getHours() < 17) {
+				if (moment(current).utc().hours() < 17) {
 					minutesPTO++;
 					current.setMinutes(current.getMinutes() + 1);
 				} else {
@@ -24,7 +39,7 @@ const calcPTO = asyncHandler(async (startDate, endDate) => {
 				}
 				break;
 			case 5:
-				if (current.getHours() < 14) {
+				if (moment(current).utc().hours() < 14) {
 					minutesPTO++;
 					current.setMinutes(current.getMinutes() + 1);
 				} else {
@@ -38,6 +53,7 @@ const calcPTO = asyncHandler(async (startDate, endDate) => {
 				console.log("days err");
 		}
 	}
+
 	let hoursPTO = minutesPTO / 60;
 	return hoursPTO;
 });

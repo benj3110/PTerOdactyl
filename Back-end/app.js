@@ -44,3 +44,6 @@ app.use("/", approvePTO);
 
 const disapprovePTO = require("./routes/disapprovePTO");
 app.use("/", disapprovePTO);
+
+const getAutoHolidays = require("./routes/getAutoHolidays");
+app.use("/", getAutoHolidays);
