@@ -111,9 +111,6 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 		return false;
 	};
 
-	if (isButtonDisabled == true) {
-	}
-
 	return (
 		<div className="box">
 			<div className="hero">

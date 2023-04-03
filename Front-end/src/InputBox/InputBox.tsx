@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 //import { useNavigate } from "react-router-dom";
-import { inputPTO } from "../utils";
+import { disapprovePTO, inputPTO } from "../utils";
 import "./InputBox.css";
 
 interface inputBoxProps {
@@ -15,21 +15,38 @@ interface inputPTOSubmitInterface {
 	remaining: string;
 }
 
-const InputBox: React.FC<inputBoxProps> = ({ name, refresher, setRefresher }) => {
+const InputBox: React.FC<inputBoxProps> = ({
+	name,
+	refresher,
+	setRefresher,
+}) => {
 	const [allowance, setAllowance] = useState<string>("");
 	const [carried, setCarried] = useState<string>("");
 	const [remaining, setRemaining] = useState<string>("");
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+	// if (remaining > allowance) {
+	// 	setIsButtonDisabled(true);
+	// } else {
+	// 	setIsButtonDisabled(false);
+	// }
+
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		let inputValue = event.target.value.replace(/[^0-9.]/g, "");
+
 		if (event.target.id == "allowance") {
-			setAllowance(event.target.value);
+			setAllowance(inputValue);
 		} else if (event.target.id == "carried") {
-			setCarried(event.target.value);
+			setCarried(inputValue);
 		} else if (event.target.id == "remaining") {
-			setRemaining(event.target.value);
+			if (parseFloat(inputValue) > parseFloat(allowance)) {
+				setIsButtonDisabled(true);
+			} else {
+				setIsButtonDisabled(false);
+			}
+			setRemaining(inputValue);
 		}
 	};
-	
-	
+
 	const handleSubmit: () => Promise<void> = async () => {
 		const inputPTOSubmit: inputPTOSubmitInterface = {
 			name: name,
@@ -41,7 +58,7 @@ const InputBox: React.FC<inputBoxProps> = ({ name, refresher, setRefresher }) =>
 		setAllowance("");
 		setCarried("");
 		setRemaining("");
-		setRefresher(!refresher)
+		setRefresher(!refresher);
 		//navigate("/bookingForm")
 	};
 
@@ -77,10 +94,19 @@ const InputBox: React.FC<inputBoxProps> = ({ name, refresher, setRefresher }) =>
 					onChange={handleInputChange}
 				/>
 			</form>
-			<button className="PTOInputButton" onClick={handleSubmit}>
+			<button
+				className="PTOInputButton"
+				onClick={handleSubmit}
+				disabled={isButtonDisabled}
+			>
 				{" "}
 				Submit PTO Data
 			</button>
+			{isButtonDisabled == true && (
+				<span className="remainingTooBig">
+					Remaining is greater than Allowance
+				</span>
+			)}
 		</div>
 	);
 };

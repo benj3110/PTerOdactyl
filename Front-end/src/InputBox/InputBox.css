@@ -1,5 +1,5 @@
 .InputBoxes{
-    width: 70%;
+    width: 80%;
     margin-left: 15%;
     display: flex;
     justify-content: space-between;
@@ -49,4 +49,14 @@
 }
 .InputBox_C{
   margin-bottom: 30px;
+}
+.PTOInputButton:disabled {
+  background-color: #e2756f;
+  box-shadow: none;
+  color: #000000;
+}
+
+.remainingTooBig{
+  color: red;
+  margin-top: 5px;
 }
