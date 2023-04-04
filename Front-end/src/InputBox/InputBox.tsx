@@ -23,12 +23,29 @@ const InputBox: React.FC<inputBoxProps> = ({
 	const [allowance, setAllowance] = useState<string>("");
 	const [carried, setCarried] = useState<string>("");
 	const [remaining, setRemaining] = useState<string>("");
-	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+	const [submitButtonError, setSubmitButtonError] =
+		useState<string>("Fill all fields");
 	// if (remaining > allowance) {
 	// 	setIsButtonDisabled(true);
 	// } else {
 	// 	setIsButtonDisabled(false);
 	// }
+	useEffect(() => {
+		const checkFieldsValid = () => {
+			if (!allowance || !carried || !remaining) {
+				setSubmitButtonError("Fill all fields");
+				return true;
+			} else if (parseFloat(remaining) > parseFloat(allowance)) {
+				setSubmitButtonError("Remaining is greater than allowance ");
+				return true;
+			} else {
+				setSubmitButtonError("");
+				return false;
+			}
+		};
+		setIsButtonDisabled(checkFieldsValid());
+	}, [allowance, carried, remaining]);
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let inputValue = event.target.value.replace(/[^0-9.]/g, "");
@@ -38,11 +55,6 @@ const InputBox: React.FC<inputBoxProps> = ({
 		} else if (event.target.id == "carried") {
 			setCarried(inputValue);
 		} else if (event.target.id == "remaining") {
-			if (parseFloat(inputValue) > parseFloat(allowance)) {
-				setIsButtonDisabled(true);
-			} else {
-				setIsButtonDisabled(false);
-			}
 			setRemaining(inputValue);
 		}
 	};
@@ -103,8 +115,8 @@ const InputBox: React.FC<inputBoxProps> = ({
 				Submit PTO Data
 			</button>
 			{isButtonDisabled == true && (
-				<span className="remainingTooBig">
-					Remaining is greater than Allowance
+				<span className="submitError">
+					Submit error: {submitButtonError}
 				</span>
 			)}
 		</div>

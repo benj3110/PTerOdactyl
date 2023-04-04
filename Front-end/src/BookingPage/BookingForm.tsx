@@ -18,7 +18,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 
 	const todaysDate: Date = new Date();
 	const [newRemaining, setNewRemaining] = useState<PTOcalcData>();
-	const [buttonErr, setButtonErr] = useState<string>("")
+	const [buttonErr, setButtonErr] = useState<string>("");
 
 	//console.log(todaysDate.toISOString().substring(0, 16));
 
@@ -35,6 +35,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 	const [endDate, setEndDate] = useState<Date | undefined>();
 
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+	const [bookingError, setBookingError] = useState<string>("");
 
 	useEffect(() => {
 		const calcHrs = async () => {
@@ -54,14 +55,13 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 
 			if (calcdPTO?.newRemaining && calcdPTO?.newRemaining <= 0) {
 				setIsButtonDisabled(true);
-				setButtonErr("Not enough remaining PTO")
-			} else if(datesValid==false ){
+				setButtonErr("Not enough remaining PTO");
+			} else if (datesValid == false) {
 				setIsButtonDisabled(true);
-				setButtonErr("Dates are not valid")
-			}
-			else {
+				setButtonErr("Dates are not valid");
+			} else {
 				setIsButtonDisabled(false);
-				setButtonErr("")
+				setButtonErr("");
 			}
 		};
 
@@ -73,12 +73,9 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			} else {
 				return true;
 			}
-			
 		};
 
 		calcHrs();
-
-		console.log(checkDatesValid());
 	}, [startDate, endDate]);
 
 	// console.log(name);
@@ -96,8 +93,13 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			endDate: endDate?.toLocaleString(),
 		};
 
-		await bookPTO(bookingSubmit);
-		navigate("/");
+		const bookingRes = await bookPTO(bookingSubmit);
+		if (bookingRes.data == null) {
+			setBookingError("Dates already booked");
+		} else {
+			setBookingError("");
+			navigate("/");
+		}
 	};
 
 	const filterPassedTime: (time: Date) => boolean = (time: Date) => {
@@ -167,11 +169,14 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 							fixedHeight
 						/>
 					</div>
-					<div>
+					<div className="error">
 						{isButtonDisabled == true && (
-							<>
-								Cannot Submit: {buttonErr}
-							</>
+							<>Cannot Submit: {buttonErr}</>
+						)}
+					</div>
+					<div className="error">
+						{bookingError != "" && (
+							<>Cannot Submit: {bookingError}</>
 						)}
 					</div>
 					<button

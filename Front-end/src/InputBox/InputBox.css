@@ -56,7 +56,7 @@
   color: #000000;
 }
 
-.remainingTooBig{
+.submitError{
   color: red;
   margin-top: 5px;
 }

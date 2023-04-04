@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./SignIn.css";
 import { getEmployeeData } from "../utils";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 interface loginInterface {
@@ -19,6 +20,7 @@ const LoginPage: React.FC<loginInterface> = ({
 	setIsManager,
 }) => {
 	const navigate: NavigateFunction = useNavigate();
+	const [userError, setUserError] = useState("");
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.preventDefault();
@@ -30,12 +32,13 @@ const LoginPage: React.FC<loginInterface> = ({
 		try {
 			const empCheck = await getEmployeeData(name);
 			if (empCheck) {
+				setUserError("");
 				empCheck.Role == "Manager" &&
 					(setIsManager(true), navigate("/managersPage"));
 				setLoggedIn(true);
 				empCheck.Role == "Employee" && navigate("/");
 			} else {
-				console.log("name doesn't match");
+				setUserError("User not in database");
 			}
 		} catch (error) {
 			console.error(error);
@@ -66,6 +69,9 @@ const LoginPage: React.FC<loginInterface> = ({
 						</div>
 						<button type="submit">Submit</button>
 					</form>
+					{userError && (
+						<span className="userError">{userError}</span>
+					)}
 				</div>
 			) : (
 				<div>
