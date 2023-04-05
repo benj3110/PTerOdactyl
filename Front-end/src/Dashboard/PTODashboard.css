@@ -1,11 +1,15 @@
 
-
+.dashboardTitle{
+  font-size:230%;
+}
 .ptodashboard-wrapper {
   text-align: center;
-  margin: auto;
-  max-width: 1000px;
+  margin-left: 16%;
+  
+  max-width: 80%;
   text-align: center;
 }
+
 
 
 
@@ -17,6 +21,7 @@
   margin-left: 16%;
   
 }
+
 
 .ptodashboard-box {
   width: 40%;
@@ -54,9 +59,42 @@
   text-align: center;
   width:80%;
   margin-left: 10%;
-  background-color: lightgray;
+  
   padding: 1%;
   margin-bottom: 5%;
 }
 
+.cancelPTOButton{
+  display:inline-block;
+  padding:0.3em 1.2em;
+  margin:0 0.3em 0.3em 0;
+  border-radius:2em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  color:#ffffff;
+  background-color: #FB8500;
+  text-align:center;
+  transition: all 0.2s;
+}
+.cancelPTOButton:hover{
+  background-color:#FFB703;
+    color:#000000;
+}
+ 
+.cancelPTOButton{
+  display:block;
+  margin:0.2em auto;
+}
 
+.ptodashboard-box-numbers{
+  border-radius: 10px;
+  background-color: lightgray;
+  padding: 1.3%;
+  
+}
+.dataTitle{
+  text-decoration: underline;
+}
+  

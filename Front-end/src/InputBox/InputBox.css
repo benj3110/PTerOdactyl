@@ -1,18 +1,18 @@
 .InputBoxes{
     width: 80%;
-    margin-left: 15%;
+    margin-left: 10%;
     display: flex;
     justify-content: space-between;
     text-align: center;
 }
 
 .PTOInputButton{
-  background-color: #e1ecf4;
-  border-radius: 3px;
+  background-color:#8ECAE6;
+  border-radius: 2em;
   border: 1px solid #7aa7c7;
   box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
   box-sizing: border-box;
-  color: #39739d;
+  color: #000000;
   cursor: pointer;
   display: inline-block;
   font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
@@ -34,8 +34,8 @@
 
 .PTOInputButton:hover,
 .PTOInputButton:focus {
-  background-color: #b3d3ea;
-  color: #2c5777;
+  background-color: #219EBC;
+  color: #ffffff;
 }
 
 .PTOInputButton:focus {
@@ -51,7 +51,7 @@
   margin-bottom: 30px;
 }
 .PTOInputButton:disabled {
-  background-color: #e2756f;
+  background-color:#e2756f;
   box-shadow: none;
   color: #000000;
 }
@@ -60,3 +60,4 @@
   color: red;
   margin-top: 5px;
 }
+

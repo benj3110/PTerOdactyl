@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { employeeDataInterface } from "../interfaces/employDataInterface";
+import { employeeDataInterface } from "../../../interfaces/employDataInterface";
 import { approvePTO, disapprovePTO, getEmployeeData } from "../utils";
 import "./ManagersPage.css";
 interface managersProps {
@@ -11,7 +11,7 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 	const [managedEmpData, setManagedEmpData] = useState<
 		Array<employeeDataInterface>
 	>([]);
-	const [refresher, setRefresher] = useState<boolean>(true)
+	const [refresher, setRefresher] = useState<boolean>(true);
 
 	useEffect(() => {
 		let isMounted = true;
@@ -25,7 +25,6 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 				setEmployeeData(empData);
 
 				if (empData?.ManagingNames) {
-					console.log(`running if`);
 					const tempData: Array<employeeDataInterface> =
 						await Promise.all(
 							empData.ManagingNames.map(
@@ -58,7 +57,7 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 			toBePendingDates: toApproveDates,
 		};
 		await approvePTO(approveSubmit);
-		setRefresher(!refresher)
+		setRefresher(!refresher);
 	};
 
 	const handleDisapprove = async (
@@ -75,39 +74,39 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 		};
 		//console.log(disapproveSubmit);
 		await disapprovePTO(disapproveSubmit);
-		setRefresher(!refresher)
+		setRefresher(!refresher);
 	};
-
-	let startingPendingDates = [""];
-	let endingPendingDates = [""];
-
 
 	return (
 		<div>
-			<h2>Currently Managing</h2>
+			<h2 className="managingTitle">Currently Managing</h2>
 			<div className="managingData_C">
 				{managedEmpData?.map((empData) => (
 					// empData.toApprove?.map((date) => <div>Most TO approve{date}</div>),
 					<div className="managingDataEach_C">
-						<h3 key={empData.Name}>{empData.Name}</h3>
+						<h3 className="dataTitle" key={empData.Name}>{empData.Name}</h3>
 						<h4 key={empData.Remaining}>
 							{" "}
 							Remaining hours: {empData.Remaining}
 						</h4>
 						<h4 key={empData.Allowance}>
 							{" "}
-							Pending Dates: {empData.PendingDates?.map(dates => (<div>{dates}</div>))}
+							Pending Dates:{" "}
+							{empData.PendingDates?.map((date) => (
+								<div>{date.replace(" # ", " to ")}</div>
+							))}
 						</h4>
 						<h4 key={empData.CarriedOver}>
 							{" "}
 							To Approve Dates:
-							{empData.toApprove?.map((toApproveDates) => (
-								<div key={toApproveDates}>
-									{toApproveDates}
+							{empData.toApprove?.map((toApproveDate) => (
+								<div key={toApproveDate}>
+									{toApproveDate.replace(" # ", " to ")}
 									<button
+										className="approvePTOButton"
 										onClick={() => {
 											handleApprove(
-												toApproveDates,
+												toApproveDate,
 												empData.Name
 											);
 										}}
@@ -115,14 +114,15 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 										Approve
 									</button>
 									<button
+										className="denyPTOButton"
 										onClick={() => {
 											handleDisapprove(
-												toApproveDates,
+												toApproveDate,
 												empData.Name
 											);
 										}}
 									>
-										Disapprove
+										Deny
 									</button>
 								</div>
 							))}

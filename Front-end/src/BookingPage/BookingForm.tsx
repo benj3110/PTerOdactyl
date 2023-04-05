@@ -4,6 +4,7 @@ import { useNavigate, NavigateFunction } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { bookPTO, calcPTO } from "../utils";
 import "./BookingForm.css";
+import BankHols from "./Bankhols";
 interface bookingProps {
 	name: string;
 }
@@ -66,7 +67,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 		};
 
 		const checkDatesValid = async () => {
-			if (endDate && endDate.getTime() < startDate.getTime()) {
+			if (endDate && endDate.getTime() <= startDate.getTime()) {
 				return false;
 			} else if (endDate == undefined) {
 				return false;
@@ -133,15 +134,11 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 
 	return (
 		<div className="box">
-			<div className="hero">
-				<video autoPlay loop muted id="video"></video>
+			<div className="booking-formTitle">
+				<h1>Book PTO</h1>
 			</div>
 			<div className="Second-comp">
 				<div className="BookingForm">
-					<div className="booking-formTitle">
-						<h1>Book PTO</h1>
-					</div>
-
 					<div>
 						From:
 						<DatePicker
@@ -201,6 +198,7 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			<div className="PTOdatainBooking">
 				Hours of PTO you're booking: {newRemaining?.PTOHours}
 			</div>
+			<BankHols />
 		</div>
 	);
 };

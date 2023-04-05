@@ -1,10 +1,10 @@
 .bookPTOButton{
-    background-color: #e1ecf4;
-    border-radius: 3px;
+    background-color: #8ECAE6;
+    border-radius: 2em;
     border: 1px solid #7aa7c7;
     box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
     box-sizing: border-box;
-    color: #39739d;
+    color: #000000;
     cursor: pointer;
     display: inline-block;
     font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
@@ -26,8 +26,8 @@
   
   .bookPTOButton:hover,
   .bookPTOButton:focus {
-    background-color: #b3d3ea;
-    color: #2c5777;
+    background-color: #219EBC;
+    color: #ffffff;
   }
   
   .bookPTOButton:focus {
@@ -50,4 +50,15 @@
 
   .error{
     color:red;
+  }
+
+  .booking-formTitle{
+    font-size:120%;
+  }
+  .box{
+    margin-left: 15%;
+  }
+
+  .Second-comp{
+    margin-top: 10%;
   }

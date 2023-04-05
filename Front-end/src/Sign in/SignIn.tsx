@@ -52,10 +52,10 @@ const LoginPage: React.FC<loginInterface> = ({
 	};
 
 	return (
-		<div>
+		<div className="signingBox">
 			{loggedIn == false ? (
 				<div>
-					<h1>Login</h1>
+					<h1 className="loginTitle">Login</h1>
 					<form onSubmit={handleSubmit}>
 						<div>
 							<label htmlFor="name">Name</label>
@@ -67,7 +67,7 @@ const LoginPage: React.FC<loginInterface> = ({
 								onChange={handleNameChange}
 							/>
 						</div>
-						<button type="submit">Submit</button>
+						<button className="signinButton" type="submit">Submit</button>
 					</form>
 					{userError && (
 						<span className="userError">{userError}</span>
@@ -75,8 +75,8 @@ const LoginPage: React.FC<loginInterface> = ({
 				</div>
 			) : (
 				<div>
-					<h1>Sign out</h1>
-					<button type="button" onClick={handleClick}>
+					<h1 className="loginTitle">Sign out</h1>
+					<button className="signinButton" type="button" onClick={handleClick}>
 						Sign out
 					</button>
 				</div>
