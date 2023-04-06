@@ -1,0 +1,14 @@
+.dropdown {
+    
+    width: fit-content;
+    margin-left: 43.4%;
+    
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .dropdown:hover {
+    background-color: #f5f5f5;
+  }
+  
