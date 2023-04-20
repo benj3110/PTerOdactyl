@@ -1,14 +1,17 @@
 .dropdown {
     
     width: fit-content;
-    margin-left: 43.4%;
+    margin-left: auto;
+    margin: auto;
     
     padding: 2px;
-    border: 1px solid #ccc;
     border-radius: 6px;
-    cursor: pointer;
+    border: 1px solid #ccc;
+    
   }
-  .dropdown:hover {
+
+  .dropdown-toggle:hover {
     background-color: #f5f5f5;
   }
+
   

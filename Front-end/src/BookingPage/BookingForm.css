@@ -44,9 +44,9 @@
     box-shadow: none;
     color: #000000;
   }
-  /* .datePicker{
-    
-  } */
+  .datePicker{
+    margin-left: 0%;
+  }
 
   .error{
     color:red;
@@ -56,7 +56,10 @@
     font-size:120%;
   }
   .box{
-    margin-left: 15%;
+    margin-left: max(180px, min(25%,800px));
+   
+    width: 65%;
+    
   }
 
   .Second-comp{

@@ -4,9 +4,9 @@
 }
 .ptodashboard-wrapper {
   text-align: center;
-  margin-left: 16%;
+  margin-left: max(170px, min(17%,800px));
   
-  max-width: 80%;
+  width: 80%;
   text-align: center;
 }
 
@@ -32,17 +32,22 @@
 }
 
 .ptodashboard-progress {
-  margin-top: 40px;
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 
 .ptodashboard-progress .CircularProgressbar-text {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
+}
+.ptodashboard-progress-text{
+  margin-top: 3%;
+  margin-left: 1%;
 }
 
 .ptodashboard-progress {
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 24px;
   font-weight: bold;
   display: flex;
@@ -61,7 +66,6 @@
   margin-left: 10%;
   
   padding: 1%;
-  margin-bottom: 5%;
 }
 
 .cancelPTOButton{

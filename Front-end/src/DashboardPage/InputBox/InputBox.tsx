@@ -1,6 +1,13 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faChevronUp,
+	faChevronDown,
+	faChevronRight,
+	faChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 //import { useNavigate } from "react-router-dom";
-import { disapprovePTO, inputPTO } from "../utils";
+import { disapprovePTO, inputPTO } from "../../utils";
 import "./InputBox.css";
 
 interface inputBoxProps {
@@ -73,52 +80,73 @@ const InputBox: React.FC<inputBoxProps> = ({
 		setRefresher(!refresher);
 		//navigate("/bookingForm")
 	};
+	const [isOpen, setIsOpen] = useState(false);
+
+	function toggleDropdown() {
+		setIsOpen(!isOpen);
+	}
 
 	return (
-		<div className="InputBoxes">
-			<form>
-				Enter Allowance (hr)
-				<input
-					type="text"
-					id="allowance"
-					name="name"
-					value={allowance}
-					onChange={handleInputChange}
-				/>
-			</form>
-			<form>
-				Enter PTO Carried Over (hr)
-				<input
-					type="text"
-					id="carried"
-					name="name"
-					value={carried}
-					onChange={handleInputChange}
-				/>
-			</form>
-			<form>
-				Enter Remaining (hr)
-				<input
-					type="text"
-					id="remaining"
-					name="name"
-					value={remaining}
-					onChange={handleInputChange}
-				/>
-			</form>
-			<button
-				className="PTOInputButton"
-				onClick={handleSubmit}
-				disabled={isButtonDisabled}
-			>
-				{" "}
-				Submit PTO Data
-			</button>
-			{isButtonDisabled == true && (
-				<span className="submitError">
-					Submit error: {submitButtonError}
-				</span>
-			)}
+		<div>
+			<div className="InputBoxes_all">
+				<div className="dropdown-toggle" onClick={toggleDropdown}>
+					<span>Reset PTO Data</span>
+					<div className="dropdown-icon">
+						<FontAwesomeIcon
+							icon={isOpen ? faChevronUp : faChevronDown}
+						/>
+					</div>
+				</div>
+				<div >
+					{isOpen && (
+						<div className="InputBoxes">
+							<form>
+								Enter Allowance (hr)
+								<input
+									type="text"
+									id="allowance"
+									name="name"
+									value={allowance}
+									onChange={handleInputChange}
+								/>
+							</form>
+							<form>
+								Enter PTO Carried Over (hr)
+								<input
+									type="text"
+									id="carried"
+									name="name"
+									value={carried}
+									onChange={handleInputChange}
+								/>
+							</form>
+							<form>
+								Enter Remaining (hr)
+								<input
+									type="text"
+									id="remaining"
+									name="name"
+									value={remaining}
+									onChange={handleInputChange}
+								/>
+							</form>
+							<button
+								className="PTOInputButton"
+								onClick={handleSubmit}
+								disabled={isButtonDisabled}
+							>
+								{" "}
+								Submit PTO Data
+							</button>
+							{isButtonDisabled == true && (
+								<span className="submitError">
+									Submit error: {submitButtonError}
+								</span>
+							)}
+						</div>
+					)}
+				</div>
+			</div>
 		</div>
 	);
 };

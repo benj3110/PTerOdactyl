@@ -78,6 +78,11 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 
 		calcHrs();
 	}, [startDate, endDate]);
+	
+	const isWeekday = (date: Date) => {
+		const day = date.getDay();
+		return day !== 0 && day !== 6;
+	  };
 
 	// console.log(name);
 
@@ -148,8 +153,10 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 							showTimeSelect
 							minDate={todaysDate}
 							filterTime={filterPassedTime}
+							filterDate={isWeekday}
 							dateFormat="do MMMM Y HH:mm"
-							fixedHeight
+							popperPlacement="top"
+							
 						/>
 					</div>
 					<div>
@@ -160,10 +167,13 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 							onChange={(date: Date) => setEndDate(date)}
 							showTimeSelect
 							minDate={startDate ? startDate : todaysDate}
+							filterDate={isWeekday}
 							//minTime={setHours(setMinutes(new Date(), 0), 17)}
 							//maxTime={setHours(setMinutes(new Date(), 30), 20)}
 							dateFormat="do MMMM Y HH:mm"
-							fixedHeight
+							
+							popperPlacement="top"
+							
 						/>
 					</div>
 					<div className="error">

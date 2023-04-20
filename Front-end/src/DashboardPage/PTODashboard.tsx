@@ -4,8 +4,10 @@ import "react-circular-progressbar/dist/styles.css";
 import "./PTODashboard.css";
 import { disapprovePTO, getEmployeeData } from "../utils";
 import { useLocation } from "react-router-dom";
-import InputBox from "../InputBox/InputBox";
+import InputBox from "./InputBox/InputBox";
 import { employeeDataInterface } from "../../../interfaces/employDataInterface";
+import Calendar from "./Calendar/Calendar";
+
 
 interface PTODashboardProps {
 	name: string;
@@ -89,7 +91,9 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 					<h3>{employeeData?.Allowance} hours</h3>
 				</div>
 				<div className="ptodashboard-box-numbers">
-					<h2 className="dataTitle">Carried Over From Previous Year</h2>
+					<h2 className="dataTitle">
+						Carried Over From Previous Year
+					</h2>
 					<h3>{employeeData?.CarriedOver} hours</h3>
 				</div>
 				<div className="ptodashboard-box-numbers">
@@ -105,16 +109,11 @@ const PTODashboard: React.FC<PTODashboardProps> = ({ name }) => {
 					/>
 				</div>
 
-				<h2
-					style={{
-						backgroundColor: "white",
-						fontSize: "20px",
-						marginLeft: "25px",
-					}}
-				>
+				<span className="ptodashboard-progress-text">
 					of your PTO remaining
-				</h2>
+				</span>
 			</div>
+			<div><Calendar/></div>
 			<div className="ptodashboard-container">
 				<div className="ptodashboard-box">
 					<h2 className="dataTitle">Pending PTO</h2>

@@ -61,3 +61,16 @@
   margin-top: 5px;
 }
 
+.dropdown-toggle{
+  width: fit-content;
+  place-self: center;
+  padding: 1%;
+  border-radius: 2em;
+  
+
+}
+.InputBoxes_all{
+  display: grid;
+  place-content: center ;
+ 
+}
