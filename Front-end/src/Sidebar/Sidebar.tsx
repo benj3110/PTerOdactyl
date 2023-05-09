@@ -17,6 +17,9 @@ const Sidebar = () => {
           <li>
             <Link to="/">Dashboard</Link>
           </li>
+          <li>
+            <Link to="/signIn"> Sign In</Link>
+          </li>
         </ul>
         {/* <ul>
           <li>
