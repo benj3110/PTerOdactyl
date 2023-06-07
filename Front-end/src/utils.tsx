@@ -102,3 +102,35 @@ export const disapprovePTO: (disapproveSubmit: any) => Promise<any> = async (
 
 	return disapproveReq;
 };
+
+export const getBankHols: () => Promise<any> = async (
+) => {
+	let Role = "Admin"
+	let userFetch: AxiosResponse<any, any>;
+
+	try {
+		userFetch = await Axios.get(
+			`http://localhost:8000/getAutoHolidays`
+		);
+		//console.log(userFetch.data);
+		return userFetch.data;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const getEmployeeDataSearch: (name: string) => Promise<any> = async (
+	name: string
+) => {
+	let userFetch: AxiosResponse<any, any>;
+
+	try {
+		userFetch = await Axios.get(
+			`http://localhost:8000/getEmployeeDataSearch/${name}`
+		);
+		//console.log(userFetch.data);
+		return userFetch.data;
+	} catch (error) {
+		console.log(error);
+	}
+};

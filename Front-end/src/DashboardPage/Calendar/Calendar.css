@@ -1,0 +1,24 @@
+.holiday {
+    background-color: #8cc6f2;
+    color: #000000;
+    border-radius: 50%;
+
+}
+
+.holiday-start {
+    background-color: aqua;
+    color: #f33d3d;
+    border-radius: 50%;
+}
+
+.Calendar {
+    display: flex;
+    justify-content: center;
+}
+
+.bankHoliday {
+    background-color: #f2d08c;
+    color: #000000;
+    border-radius: 50%;
+
+}

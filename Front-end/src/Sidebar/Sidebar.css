@@ -3,35 +3,121 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 200px;
-  background-color: #f4f4f4;
-  color: rgb(180, 176, 176);
+  width: min(224px, max(20%, 150px));
+  background-color: #272727;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 0;
+
+}
+
+@media screen and (max-width: 1000px) {
+  /* .sidebar {
+    width: max(20%,150px);
+  } */
+
+  .navbar-links-link {
+    font-size: max(18px, 2.3vw);
+  }
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  min-width: 170px;
 }
 
 .logo img {
-  width: 80%;
+  width: 85%;
 }
 
-nav {
+.navbar {}
+
+.navbar-links {
+  padding: 7%;
+  text-decoration: none;
+  list-style: none;
+  font-size: 1.5rem;
+  border-radius: 25px;
+  margin-top: 10%;
+
+}
+
+.navbar-links-link {
+  text-decoration: none;
+  color: rgb(207, 207, 207);
+}
+
+.navbar-links:hover .navbar-links-link {
+  color: #272727;
+
+}
+
+.navbar-links:hover {
+  background-color: #adadad;
+  transition: background-color 0.3s ease;
+}
+
+.display-nothing {
+  display: none;
+}
+
+/* .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 15rem;
+  background-color: #d0cdcd;
   display: flex;
   flex-direction: column;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
   align-items: center;
+}
+
+.logo img {
+  width: 85%;
+  max-width: 100%;
+  height: auto;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.navbar-link {
+  display: block;
+  padding: 0.5rem;
+  border-radius: 4px;
+  color: #000000;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-link:hover {
+  background-color: #adadad;
+}
+
+
+} */
+
+/* nav {
+  
+  flex-direction: column;
+  
   flex-grow: 1;
-  background-color: #f4f4f4;
+  
+  
 }
 
 ul {
@@ -39,32 +125,24 @@ ul {
   margin: 0;
   padding: 0;
   margin-bottom: auto;
-  background-color: rgb(254, 254, 254);
+  
 }
 
 li {
   margin: 10px 0;
-  background-color: rgb(249, 244, 244);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: auto;
+  
 }
 
 a {
   display: flex;
   align-items: center;
   color: #090808;
-  background-color: rgb(243, 240, 240);
+  
   text-decoration: none;
   font-size: 18px;
   padding: 10px;
-}
-
-a:hover {
-  color: #ae2a05;
-}
-
-.icon {
-  margin-right: 10px;
-  font-size: 20px;
-}
-.NavBar-Links {
-  background-color: #eff1f3;
-}
+} */

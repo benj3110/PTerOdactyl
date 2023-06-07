@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import PTODashboard from "../Dashboard/PTODashboard";
+import PTODashboard from "../DashboardPage/PTODashboard";
 import BookingForm from "../BookingPage/BookingForm";
 import LoginPage from "../Sign in/SignIn";
 import ManagersPage from "../ManagersPage/ManagersPage";
+import SearchPage from "../SearchPage/SearchPage";
 
 interface routerProps {
 	isManager: boolean;
@@ -44,8 +45,16 @@ const Router: React.FC<routerProps> = ({
 					element={<BookingForm name={name} />}
 				/>
 				{isManager == true && (
-					<Route path="/managersPage" element={<ManagersPage name={name}/>} />
+					<Route
+						path="/managersPage"
+						element={<ManagersPage name={name} />}
+					/>
 				)}
+				<Route
+					path="/searchUsers"
+					element={<SearchPage />}
+				/>
+
 				<Route path="*" element={<div>404 Page Not Found!</div>} />
 			</Routes>
 		</div>

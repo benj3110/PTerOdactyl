@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { employeeDataInterface } from "../interfaces/employDataInterface";
 import { approvePTO, disapprovePTO, getEmployeeData } from "../utils";
 import "./ManagersPage.css";
+import Header from "../Header/Header";
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField } from "@mui/material";
 interface managersProps {
 	name: string;
 }
@@ -11,11 +13,10 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 	const [managedEmpData, setManagedEmpData] = useState<
 		Array<employeeDataInterface>
 	>([]);
-	const [refresher, setRefresher] = useState<boolean>(true)
+	const [refresher, setRefresher] = useState<boolean>(true);
 
 	useEffect(() => {
 		let isMounted = true;
-		console.log("useEffect");
 
 		const employeeDataWrap = async () => {
 			if (isMounted) {
@@ -25,7 +26,6 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 				setEmployeeData(empData);
 
 				if (empData?.ManagingNames) {
-					console.log(`running if`);
 					const tempData: Array<employeeDataInterface> =
 						await Promise.all(
 							empData.ManagingNames.map(
@@ -58,7 +58,7 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 			toBePendingDates: toApproveDates,
 		};
 		await approvePTO(approveSubmit);
-		setRefresher(!refresher)
+		setRefresher(!refresher);
 	};
 
 	const handleDisapprove = async (
@@ -75,62 +75,73 @@ const ManagersPage: React.FC<managersProps> = ({ name }) => {
 		};
 		//console.log(disapproveSubmit);
 		await disapprovePTO(disapproveSubmit);
-		setRefresher(!refresher)
+		setRefresher(!refresher);
 	};
 
-	let startingPendingDates = [""];
-	let endingPendingDates = [""];
-
-
 	return (
-		<div>
-			<h2>Currently Managing</h2>
-			<div className="managingData_C">
-				{managedEmpData?.map((empData) => (
-					// empData.toApprove?.map((date) => <div>Most TO approve{date}</div>),
-					<div className="managingDataEach_C">
-						<h3 key={empData.Name}>{empData.Name}</h3>
-						<h4 key={empData.Remaining}>
-							{" "}
-							Remaining hours: {empData.Remaining}
-						</h4>
-						<h4 key={empData.Allowance}>
-							{" "}
-							Pending Dates: {empData.PendingDates?.map(dates => (<div>{dates}</div>))}
-						</h4>
-						<h4 key={empData.CarriedOver}>
-							{" "}
-							To Approve Dates:
-							{empData.toApprove?.map((toApproveDates) => (
-								<div key={toApproveDates}>
-									{toApproveDates}
-									<button
-										onClick={() => {
-											handleApprove(
-												toApproveDates,
-												empData.Name
-											);
-										}}
-									>
-										Approve
-									</button>
-									<button
-										onClick={() => {
-											handleDisapprove(
-												toApproveDates,
-												empData.Name
-											);
-										}}
-									>
-										Disapprove
-									</button>
-								</div>
-							))}
-						</h4>
-					</div>
-				))}
-			</div>
-		</div>
+		<>
+			<Header title={"Managing"} />
+			<Box className="Box">
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>
+								Name
+							</TableCell>
+							<TableCell>
+								Remaining
+							</TableCell>
+							<TableCell>
+								Pending Approval
+							</TableCell>
+							<TableCell>
+								Approved
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{managedEmpData?.map((user) => (
+							<TableRow key={user.Name}>
+								<TableCell>{user.Name}</TableCell>
+								<TableCell>{user.Remaining}</TableCell>
+								<TableCell>
+									{user.toApprove?.map((date) => (
+										<TableRow key={date}><TableCell>{date.replace(" # ", " to ")}
+											<button
+												className="approvePTOButton"
+												onClick={() => {
+													handleApprove(
+														date,
+														user.Name
+													);
+												}}
+											>
+												Approve
+											</button>
+											<button
+												className="denyPTOButton"
+												onClick={() => {
+													handleDisapprove(
+														date,
+														user.Name
+													);
+												}}
+											>
+												Deny
+											</button></TableCell></TableRow>
+									))}
+								</TableCell>
+								<TableCell>{user.PendingDates?.map((date) => (
+									<TableRow key={date}><TableCell>{date.replace(" # ", " to ")}</TableCell></TableRow>
+								))}</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+
+
+				</Table>
+			</Box>
+		</>
 	);
 };
 

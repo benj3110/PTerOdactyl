@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import PTODashboard from "./Dashboard/PTODashboard";
+import PTODashboard from "./DashboardPage/PTODashboard";
 import Sidebar from "./Sidebar/Sidebar";
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
@@ -22,7 +22,11 @@ function App(): JSX.Element {
 					loggedIn={loggedIn}
 					setLoggedIn={setLoggedIn}
 				/>
-				<Sidebar isManager={isManager} loggedIn={loggedIn} name={name} />
+				<Sidebar
+					isManager={isManager}
+					loggedIn={loggedIn}
+					name={name}
+				/>
 			</BrowserRouter>
 		</div>
 	);

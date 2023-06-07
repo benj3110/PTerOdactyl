@@ -3,8 +3,10 @@ import DatePicker from "react-datepicker";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { bookPTO, calcPTO } from "../utils";
-import "react-datepicker/dist/react-datepicker.css";
 import "./BookingForm.css";
+import BankHols from "./Bankhols";
+import Header from "../Header/Header";
+import { Box } from "@mui/material";
 interface bookingProps {
 	name: string;
 }
@@ -18,7 +20,11 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 	const navigate: NavigateFunction = useNavigate();
 
 	const todaysDate: Date = new Date();
+	const nextYear = new Date(todaysDate.getFullYear() + 1, todaysDate.getMonth(), todaysDate.getDate());
+	console.log(nextYear);
+
 	const [newRemaining, setNewRemaining] = useState<PTOcalcData>();
+	const [buttonErr, setButtonErr] = useState<string>("");
 
 	//console.log(todaysDate.toISOString().substring(0, 16));
 
@@ -32,9 +38,10 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 
 	const [startDate, setStartDate] = useState<Date>(todaysDate);
 
-	const [endDate, setEndDate] = useState<Date | undefined>(todaysDate);
+	const [endDate, setEndDate] = useState<Date | undefined>();
 
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+	const [bookingError, setBookingError] = useState<string>("");
 
 	useEffect(() => {
 		const calcHrs = async () => {
@@ -48,20 +55,40 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 				endDate: endDate?.toLocaleString(),
 			};
 
-			setNewRemaining(await calcPTO(bookingSubmit));
+			const calcdPTO = await calcPTO(bookingSubmit);
+			const datesValid = await checkDatesValid();
+			setNewRemaining(calcdPTO);
 
-			
-			if (newRemaining?.newRemaining && newRemaining?.newRemaining <= 0) {
+			if (calcdPTO?.newRemaining && calcdPTO?.newRemaining <= 0) {
 				setIsButtonDisabled(true);
+				setButtonErr("Not enough remaining PTO");
+			} else if (datesValid == false) {
+				setIsButtonDisabled(true);
+				setButtonErr("Dates are not valid");
 			} else {
 				setIsButtonDisabled(false);
+				setButtonErr("");
+			}
+		};
+
+		const checkDatesValid = async () => {
+			if (endDate && endDate.getTime() <= startDate.getTime()) {
+				return false;
+			} else if (endDate == undefined) {
+				return false;
+			} else {
+				return true;
 			}
 		};
 
 		calcHrs();
-
-		console.log(isButtonDisabled);
 	}, [startDate, endDate]);
+
+	const isWeekday = (date: Date) => {
+		const day = date.getDay();
+		return day !== 0 && day !== 6;
+	};
+
 
 	// console.log(name);
 
@@ -78,8 +105,13 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 			endDate: endDate?.toLocaleString(),
 		};
 
-		await bookPTO(bookingSubmit);
-		navigate("/");
+		const bookingRes = await bookPTO(bookingSubmit);
+		if (bookingRes.data == null) {
+			setBookingError("Dates already booked");
+		} else {
+			setBookingError("");
+			navigate("/");
+		}
 	};
 
 	const filterPassedTime: (time: Date) => boolean = (time: Date) => {
@@ -112,64 +144,77 @@ const BookingForm: React.FC<bookingProps> = ({ name }) => {
 	};
 
 	return (
-		<div className="box">
-			<div className="hero">
-				<video autoPlay loop muted id="video"></video>
-			</div>
-			<div className="Second-comp">
-				<div className="BookingForm">
-					<div className="booking-formTitle">
-						<h1>Book PTO</h1>
-					</div>
+		<>
+			<Header title={"Book PTO"} />
+			<Box className='Box'>
 
-					<div>
-						From:
-						<DatePicker
-							selected={startDate}
-							onChange={(date: Date) => setStartDate(date)}
-							showTimeSelect
-							minDate={todaysDate}
-							filterTime={filterPassedTime}
-							dateFormat="do MMMM Y HH:mm"
-							fixedHeight
-						/>
+				<div className="Second-comp">
+					<div className="BookingForm">
+						<div>
+							From:
+							<DatePicker
+								className="datePicker"
+								selected={startDate}
+								onChange={(date: Date) => setStartDate(date)}
+								showTimeSelect
+								minDate={todaysDate}
+								filterTime={filterPassedTime}
+								filterDate={isWeekday}
+								dateFormat="do MMMM Y HH:mm"
+								popperPlacement="top"
+								maxDate={nextYear}
+							/>
+						</div>
+						<div>
+							To:
+							<DatePicker
+								className="datePicker"
+								selected={endDate}
+								onChange={(date: Date) => setEndDate(date)}
+								showTimeSelect
+								maxDate={nextYear}
+								minDate={startDate ? startDate : todaysDate}
+								filterDate={isWeekday}
+								dateFormat="do MMMM Y HH:mm"
+								popperPlacement="top"
+
+							/>
+						</div>
+						<div className="error">
+							{isButtonDisabled == true && (
+								<>Cannot Submit: {buttonErr}</>
+							)}
+						</div>
+						<div className="error">
+							{bookingError != "" && (
+								<>Cannot Submit: {bookingError}</>
+							)}
+						</div>
+						<button
+							className="bookPTOButton"
+							type="button"
+							onClick={() => {
+								handleSubmit();
+							}}
+							disabled={isButtonDisabled}
+						>
+							{" "}
+							Submit{" "}
+						</button>
 					</div>
-					<div>
-						To:
-						<DatePicker
-							selected={endDate}
-							onChange={(date: Date) => setEndDate(date)}
-							showTimeSelect
-							minDate={startDate ? startDate : todaysDate}
-							//minTime={setHours(setMinutes(new Date(), 0), 17)}
-							//maxTime={setHours(setMinutes(new Date(), 30), 20)}
-							dateFormat="do MMMM Y HH:mm"
-							fixedHeight
-						/>
-					</div>
-					<button
-						className="bookPTOButton"
-						type="button"
-						onClick={() => {
-							handleSubmit();
-						}}
-						disabled={isButtonDisabled}
-					>
-						{" "}
-						Submit{" "}
-					</button>
 				</div>
-			</div>
-			<div className="PTOdatainBooking">
-				New remaining hours: {newRemaining?.newRemaining}
-			</div>
-			<div className="PTOdatainBooking">
-				New carried over hours: {newRemaining?.newCarried}
-			</div>
-			<div className="PTOdatainBooking">
-				Hours of PTO you're booking: {newRemaining?.PTOHours}
-			</div>
-		</div>
+				<div className="PTOdatainBooking">
+					New remaining hours: {newRemaining?.newRemaining}
+				</div>
+				<div className="PTOdatainBooking">
+					New carried over hours: {newRemaining?.newCarried}
+				</div>
+				<div className="PTOdatainBooking">
+					Hours of PTO you're booking: {newRemaining?.PTOHours}
+				</div>
+				<BankHols />
+			</Box>
+		</>
 	);
 };
 
