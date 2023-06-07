@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
+// const express = require("express");
+// const router = express.Router();
 
-const registrationController = require("../controllers/registration");
+// const registrationController = require("../controllers/registration");
 
-router.put("/makeEmployee", registrationController.makeEmployee);
+// router.put("/makeEmployee", registrationController.makeEmployee);
 
-module.exports = router;
+// module.exports = router;

@@ -20,6 +20,11 @@ app.listen(port, () => {
 	console.log(`Port ${process.env.PORT} is listening...`);
 });
 
+// mongoose.connect(process.env.MONGO_URI,{tlsCAFile: `rds-combined-ca-bundle.pem`}).then(() => {
+// 	console.log("Connected to database");
+// }); 
+//todo this is for aws documentDB connection ^
+
 mongoose.connect(process.env.MONGO_URI).then(() => {
 	console.log("Connected to database");
 });
@@ -27,8 +32,8 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 const employeeDataRoute = require("./routes/employeeData");
 app.use("/", employeeDataRoute);
 
-const registrationRoute = require("./routes/registration");
-app.use("/", registrationRoute);
+// const registrationRoute = require("./routes/registration");
+// app.use("/", registrationRoute);
 
 const requestPTORoute = require("./routes/bookPTO");
 app.use("/", requestPTORoute);
@@ -44,3 +49,9 @@ app.use("/", approvePTO);
 
 const disapprovePTO = require("./routes/disapprovePTO");
 app.use("/", disapprovePTO);
+
+const getAutoHolidays = require("./routes/getAutoHolidays");
+app.use("/", getAutoHolidays);
+
+const employeeDataSearchRoute = require("./routes/employeeDataSearch");
+app.use("/", employeeDataSearchRoute);

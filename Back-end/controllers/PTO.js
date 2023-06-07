@@ -1,14 +1,17 @@
-const Employee = require("../models/employee");
+const Employee = require("../models/Employee");
 const asyncHandler = require("express-async-handler"); //used instead of try catch blocks and handling errors, wrapping the async func
 const helperFunc = require("./helperFunctions");
 const moment = require("moment");
 
 const requestPTO = asyncHandler(async (req, res, next) => {
-	const checkPTO = await Employee.find({
+	const checkPendingPTO = await Employee.find({
 		Name: req.body.name,
-		PendingDates: req.body.PendingDates,
+		PendingDates: req.body.toApprove,
 	});
-	//todo actually do a validation this doesn't do anything
+	const checkApprovePTO = await Employee.find({
+		Name: req.body.name,
+		toApprove: req.body.toApprove,
+	});
 
 	const startDatePreMod = moment(
 		req.body.startDate,
@@ -26,7 +29,7 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 	const hoursPTO = await helperFunc.calcPTO(startDate, endDate);
 
 	let counter = 0;
-	const remaining = employeeData.Remaining - hoursPTO;
+	const remaining = employeeData?.Remaining - hoursPTO;
 	let newCarried = Number(employeeData?.CarriedOver);
 	while (newCarried > 0 && counter < hoursPTO) {
 		newCarried -= 0.5;
@@ -34,7 +37,7 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 	}
 
 	if (
-		checkPTO.length == 0 &&
+		(checkPendingPTO.length == 0 && checkApprovePTO.length == 0) &&
 		Math.floor(employeeData.Remaining) >= hoursPTO
 	) {
 		const requestingPTODates = await Employee.updateOne(
@@ -52,7 +55,7 @@ const requestPTO = asyncHandler(async (req, res, next) => {
 		);
 		res.status(200).json("Updating PTO requests");
 	} else {
-		res.status(200).json("PTO dates already in database");
+		res.status(200).json(null);
 	}
 });
 
